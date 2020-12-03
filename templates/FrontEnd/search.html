@@ -1,0 +1,8 @@
+<!-- Product Data -->
+{% for productdata in productdata|slice:":10" %}
+	{% if forloop.counter == 0 %}
+		<label class="list-group-item">Products</label>
+	{% else %}
+		<li class="list-group-item"><a href="{% url 'product' productdata.id %}">{{productdata.product_name}}</a></li>
+	{% endif %}
+{% endfor %}

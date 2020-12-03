@@ -1,0 +1,73 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %}  
+  
+  <!-- Bread Crumb STRAT -->
+  <div class="banner inner-banner1 ">
+    <div class="container">
+      <section class="banner-detail center-xs">
+        <h1 class="banner-title">Forgot Password</h1>
+        <div class="bread-crumb right-side float-none-xs">
+          <ul>
+            <li><a href="{% url 'index' %}">Home</a>/</li>
+            <li><span>Forgot Password</span></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- Bread Crumb END --> 
+
+  <!-- CONTAIN START -->
+  <section class="checkout-section ptb-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-8 col-md-8 ">
+              
+              <form class="main-form full"  method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-12 mb-20">
+                    <div class="heading-part heading-bg">
+                      <h2 class="heading">Forgot Password</h2>
+                    </div>
+                  </div>
+                  <div>
+                      {% if messages %}
+                      {% for message in messages %}
+                        <p class="alert alert-info">{{ message }}</p>
+                      {% endfor %}
+                      {% endif %}
+                  </div>
+                  <div class="col-12">
+                    <div class="input-box">
+                      <label for="login-email">Email address</label>
+                      <input id="login-email" type="email" name="email" required placeholder="Email Address">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button name="submit" type="submit" class="btn-color">Forgot Password</button>
+                    <a class="link right-side" title="Login" href="{% url 'logincustom' %}"><span style="font-size: 16px;">Login</span></a>
+                  </div>
+                  <div class="col-12">
+                    <div class="new-account align-center mt-20"> </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTAINER END --> 
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+        }, 2000);
+</script>
+{% endblock %}

@@ -1,0 +1,318 @@
+ {% load static %}
+  <!-- HEADER START -->
+
+  <header class="navbar navbar-custom container-full-sm" id="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="top-link top-link-left select-dropdown">
+              
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="top-right-link right-side">
+              <ul>
+                <li class="login-icon content">
+                  <a class="content-link">
+                  <span class="content-icon"></span> 
+                  </a> 
+                  <div class="content-dropdown">
+                    <ul>
+                      {% if request.session.username %}
+                        <li class=""><a href="{% url 'logoutcustom' %}" title="Register"><i class="fa fa-share-square-o"></i> Logout</a></li>
+                      {% else %}
+                        <li class=""><a href="{% url 'logincustom' %}" title="Login"><i class="fa fa-user"></i> Login</a></li>
+                        <li class="register-icon"><a href="{% url 'register' %}" title="Register"><i class="fa fa-user-plus"></i> Register</a></li>
+                        <li class=""><a href="{% url 'forgot' %}" title="Login"><i class="fa fa-user"></i> Forgot</a></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </li>
+                {% if request.session.username %}
+                  <li class="track-icon">
+                    <a href="{% url 'myorder' %}" title="Track your order"><span></span> </a>
+                  </li>
+                {%else%}
+                  <li class="track-icon">
+                    <a href="{% url 'logincustom' %}" title="Track your order"><span></span></a>
+                  </li>
+                {%endif%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-middle">
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-xl-3 col-md-3 col-lgmd-20per">
+            <div class="header-middle-left">
+              <div class="navbar-header float-none-sm">
+                <a class="navbar-brand page-scroll" href="{% url 'index' %}">
+                  <img alt="Stylexpo" src="{% static 'images/logo1.png' %}" style="height: 15%;width: 55%;margin-left: 30px;">
+                </a> 
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-md-6 col-lgmd-60per">
+            <div style="margin-top: 25px;margin-bottom: 10px;">
+              <div class="main-search">
+                <div class="header_search_toggle desktop-view">
+                  <form>
+                    <div class="search-box">
+                      <input class="input-text" id="searching" type="text" placeholder="Search entire store here...">
+                      <!-- <button class="search-btn"></button> -->
+                      <div id="showList" style="position: absolute;z-index: 999;width: inherit;width: 685px;">
+                        <ul class="list-group" style="">
+                         
+                        </ul>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3 col-lgmd-20per">
+            <div class="right-side float-left-xs header-right-link">
+
+              <ul>
+                {% if request.session.username %}
+                  <li class="cart-icon" id="cart_details"> <a href="{% url 'cart_page' %}"> <span><small class="cart-notification"><b id="count">0</b></small> </span> </a>
+                    <div class="cart-dropdown header-link-dropdown">
+                      <ul class="cart-list link-dropdown-list" id="cart_details_data">
+                      </ul>
+                      <div class="mt-20" id="cart_checkout_data"> 
+                        <a href="{% url 'cart_page' %}" class="btn-color btn right-side">Cart</a> 
+                      </div>
+                      <div class="mt-20" id="cart_checkout_data_hide"> 
+                        <b style="color:red;font-size: 16px;">Please Select Products !!</b>
+                      </div>
+                    </div>
+                  </li>
+                {%else%}
+                  <li class="cart-icon"> <a href=""> <span><small class="cart-notification">0</small>  </span> </a>
+                    <div class="cart-dropdown header-link-dropdown">
+                      <ul class="cart-list link-dropdown-list">
+                        <li>
+                          <b style="color:red;font-size: 18px;">Please Login !!</b>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                {%endif%}
+                <li class="side-toggle">
+                  <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"><i class="fa fa-bars"></i></button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom"> 
+      <div class="container">
+        <div class="row position-r">
+          <div class="col-xl-2 col-lg-3 col-lgmd-20per position-s">
+            <div class="sidebar-menu-dropdown home">
+              <a class="btn-sidebar-menu-dropdown"><span></span> Categories </a>
+              <div id="cat" class="cat-dropdown">
+                <div class="sidebar-contant">
+                  <div id="menu" class="navbar-collapse collapse" >
+                    <ul class="nav navbar-nav " id="catgordata">
+                      <!-- {%for data in categoryData%}
+                          {%if data.parent_id == 2 %}
+                          <li class="level sub-megamenu">
+                            <span class="opener plus"></span>
+                            <a href="{% url 'shop' data.url %}" class="page-scroll">{{data.name}}</a>
+                            <div class="megamenu mobile-sub-menu" style="margin-top: 2px;">
+                              <div class="megamenu-inner-top">
+                                <ul class="sub-menu-level1">
+                                  <li class="level2">
+                                    <span>{{data.name}}</span>
+                                    <ul class="sub-menu-level2 ">
+                                      {%for subdata in subcategoryData%}
+                                        {%if data.id == subdata.parent_id %}
+                                      <li style="margin-top: 10px;"><a href="{% url 'shopdata' subdata.url %}"><span>■</span> {{subdata.name}}</a></li>
+                                      {%endif%}
+                                    {%endfor%}
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+                          {%endif%}
+                        {%endfor%}
+                        <li></li> -->
+                    </ul>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-lgmd-60per">
+            <div class="bottom-inner">
+              <div class="position-r">          
+                <div class="nav_sec position-r">
+                  <div class="mobilemenu-title mobilemenu">
+                    <span>Menu</span>
+                    <i class="fa fa-bars pull-right"></i>
+                  </div>
+                  <div class="mobilemenu-content">
+                    <ul class="nav navbar-nav" id="menu-main">
+                      
+                        <li class="active">
+                          <a href="{% url 'index' %}"><span>Home</span></a>
+                        </li>
+                        <li>
+                          <a href="{% url 'about' %}"><span>About Us</span></a>
+                        </li>
+                        <li>
+                          <a href="{% url 'contact_us' %}"><span>Contact Us</span></a>
+                        </li>
+                        {% if request.session.username %}
+                        <li>
+                          <a href="{% url 'account' %}"><span>Account</span></a>
+                        </li>
+                        <li>
+                          <a href="{% url 'myorder' %}"><span>My  Order</span></a>
+                        </li>
+                        {%endif%}
+                        
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-links ">
+      <div class="popup-links-inner">
+        <ul>
+          <li class="categories">
+            <a class="popup-with-form" href="#categories_popup"><span class="icon"></span><span class="icon-text">Categories</span></a>
+          </li>
+          <li class="cart-icon">
+            <a href="{% url 'cart_page' %}"><span class="icon"></span><span class="icon-text">Cart</span></a>
+          </li>
+          <li class="account">
+            <a class="popup-with-form" href="#account_popup"><span class="icon"></span><span class="icon-text">Account</span></a>
+          </li>
+          <li class="scroll scrollup">
+            <a href="#"><span class="icon"></span><span class="icon-text">Scroll-top</span></a>
+          </li>
+        </ul>
+      </div>
+      <div id="popup_containt">
+        <div id="categories_popup" class="white-popup-block mfp-hide popup-position">
+          <div class="popup-title">
+            <h2 class="main_title heading"><span>categories</span></h2>
+          </div>
+          <div id="categorydata">
+          </div>
+          <!-- <div class="popup-detail" id="categorydata">
+            <ul class="cate-inner">
+              {%for data in categoryData%}
+                {%if data.parent_id == 2 %}
+                  <li class="level sub-megamenu">
+                    <span class="opener plus"></span>
+                    <a href="{% url 'shop' data.url %}" class="page-scroll"><i class="fa fa-female"></i>{{data.name}}</a>
+                    <div class="megamenu  mega-sub-menu">
+                      <div class="megamenu-inner-top">
+                        <ul class="sub-menu-level1">
+                          <li class="level2">
+                            <ul class="sub-menu-level2 ">
+                              {%for subdata in subcategoryData%}
+                                {%if data.id == subdata.parent_id %}
+                                  <li class="level3"><a href="{% url 'shopdata' subdata.url %}"><span>■</span>{{subdata.name}}</a></li>
+                              {%endif%}
+                            {%endfor%}
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  {%endif%}
+              {%endfor %}
+            </ul>
+          </div>   -->
+        </div>
+        <div id="account_popup" class="white-popup-block mfp-hide popup-position">
+          <div class="popup-title">
+            <h2 class="main_title heading"><span>Account</span></h2>
+          </div>
+          {% if request.session.username %}
+          <div class="popup-detail">
+            <div class="row">
+              <div class="col-lg-4">
+                <a href="{% url 'account' %}">
+                  <div class="account-inner mb-30">
+                    <i class="fa fa-user"></i><br/>
+                    <span>Account</span>
+                  </div>
+                </a>
+              </div>
+              
+              <div class="col-lg-4">
+                <a href="{% url 'index' %}">
+                  <div class="account-inner mb-30">
+                    <i class="fa fa-shopping-bag"></i><br/>
+                    <span>Shopping</span>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-4">
+                <a href="{% url 'logoutcustom' %}">
+                  <div class="account-inner">
+                    <i class="fa fa-share-square-o"></i><br/>
+                    <span>log out</span>
+                  </div>
+                </a>
+              </div></div>
+            {%else%}
+            <div class="popup-detail">
+            
+              <div class="row">
+                <div class="col-lg-4">
+                  <a href="{% url 'logincustom' %}">
+                    <div class="account-inner mb-30">
+                      <i class="fa fa-user"></i><br/>
+                      <span>Login</span>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-lg-4">
+                  <a href="{% url 'register' %}">
+                    <div class="account-inner mb-30">
+                      <i class="fa fa-user-plus"></i><br/>
+                      <span>Register</span>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-lg-4">
+                  <a href="{% url 'forgot' %}">
+                    <div class="account-inner mb-30">
+                      <i class="fa fa-user-plus"></i><br/>
+                      <span>Forgot Password</span>
+                    </div>
+                  </a>
+                </div>
+              
+            </div>
+            {%endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+

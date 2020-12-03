@@ -1,0 +1,544 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Product Form</a> </div>
+    <h1>Products</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
+            <h5>Product Form</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                  <p class="alert alert-info">{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <form id="form-wizard" class="form-horizontal" enctype="multipart/form-data" method="POST" action="{% url 'product_update' productedit.id %}" >
+            {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">Product Name</label>
+                <div class="controls">
+                  <input id="name" type="text" name="product_name" placeholder="Product Name" value="{{productedit.product_name}}" required="" />
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Select Category</label>
+              <div class="controls">
+                <select name="category" style="width:220px;">
+                  {%for subdata in subname%}
+                  <option hidden="" value="{{productedit.category_id}}">{{subdata.name}}</option>
+                  {%endfor%}
+                  {%for data in categoryData%}
+                    {%if data.parent_id == 2 %}
+                      <option value="{{data.id}}" disabled="">**{{data.name}}**</option>
+                      {%for subdata in subcategoryData%}
+                        {%if data.id == subdata.parent_id %}
+                          <option value="{{subdata.id}}">{{subdata.name}}</option>
+                        {%endif%}
+                      {%endfor%}
+                    {%endif%}
+                  {%endfor %}
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Model Name</label>
+                <div class="controls">
+                  <input id="name" type="text" name="model_name" placeholder="Model Name" value="{{productedit.model_name}}" required="" />
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Model Code</label>
+                <div class="controls">
+                  <input type="text" name="model_code" placeholder="Model Code" value="{{productedit.model_code}}" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Images</label>
+                <div class="controls">
+                  {%if productedit.images != '' %}
+                    <input type="file" name="images" value="{{productedit.images}}">
+                    <img style="width:60px;" src="{{productedit.images.url}}"> | <a href="{% url 'product_image_delete' productedit.id %}"> Delete</a>
+                  {%else%}
+                    <input type="file" name="images" required="">
+                  {%endif%}
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Description</label>
+                <div class="controls">
+                  <textarea name="description" id="description" placeholder="Description" cols="30" rows="3" required="">{{productedit.description}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Browse Type</label>
+                <div class="controls">
+                  <input type="text" name="browser_type" placeholder="Browse Type" value="{{productedit.browser_type}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">SIM Type</label>
+                <div class="controls">
+                  <input type="text" name="sim_type" placeholder="SIM Type" value="{{productedit.sim_type}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Hybrid SIM Slot</label>
+              <div class="controls">
+                <select name="hybrid_sim_slot" style="width:220px;">
+                  {%if productedit.hybrid_sim_slot == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Touch Screen</label>
+              <div class="controls">
+                <select name="touchscreen" style="width:220px;">
+                  {%if productedit.touchscreen == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+              
+              <div class="control-group">
+              <label class="control-label">OTG Compatible</label>
+              <div class="controls">
+                <select name="otg_compatible" style="width:220px;">
+                  {%if productedit.otg_compatible == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Display Size</label>
+                <div class="controls">
+                  <input type="text" name="display_size" placeholder="Display Size" value="{{productedit.display_size}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Resolution</label>
+                <div class="controls">
+                  <input type="text" name="resolution" placeholder="Resolution" value="{{productedit.resolution}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Resolution Type</label>
+                <div class="controls">
+                  <input type="text" name="resolution_type" value="{{productedit.resolution_type}}" placeholder="Resolution Type" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Other Display Features</label>
+                <div class="controls">
+                  <textarea name="other_display_features" placeholder="Other Display Features" id="description" cols="30" rows="3" required="">{{productedit.other_display_features}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Operating System</label>
+                <div class="controls">
+                  <input type="text" name="operating_system" value="{{productedit.operating_system}}" placeholder="Operating System" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Processor Type</label>
+                <div class="controls">
+                  <input type="text" name="processor_type" placeholder="Processor Type" value="{{productedit.processor_type}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Processor Core</label>
+                <div class="controls">
+                  <input type="text" name="processor_core" placeholder="Processor Core" value="{{productedit.processor_core}}" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Primary Clock Speed</label>
+                <div class="controls">
+                  <input type="text" name="primary_clock_speed" value="{{productedit.primary_clock_speed}}" placeholder="Primary Clock Speed" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Secondary Clock Speed</label>
+                <div class="controls">
+                  <input type="text" name="secondary_clock_speed" value="{{productedit.secondary_clock_speed}}" placeholder="Secondary Clock Speed" id="browse_type" id="browse_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Operating Frequency</label>
+                <div class="controls">
+                  <textarea name="operating_frequency" placeholder="Operating Frequency" id="description" cols="30" rows="3" required="">{{productedit.operating_frequency}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Supported Memory Card Type</label>
+                <div class="controls">
+                  <input type="text" name="supported_memory_card_type" placeholder="Supported Memory Card Type" id="supported_memory_card_type" value="{{productedit.supported_memory_card_type}}" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Memory Card Slot Type</label>
+                <div class="controls">
+                  <input type="text" name="memory_card_slot_type" value="{{productedit.memory_card_slot_type}}" placeholder="Memory Card Slot Type" id="memory_card_slot_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Primary Camera Available</label>
+              <div class="controls">
+                <select name="primary_camera_available" style="width:220px;">
+                  {%if productedit.primary_camera_available == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Primary Camera</label>
+                <div class="controls">
+                  <input type="text" name="primary_camera" placeholder="Primary Camera" value="{{productedit.primary_camera}}" id="primary_camera" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Primary Camera Features</label>
+                <div class="controls">
+                  <textarea name="primary_camera_features" placeholder="Primary Camera Features"  id="description" cols="30" rows="3" required="">{{productedit.primary_camera_features}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Secondary Camera Available</label>
+              <div class="controls">
+                <select name="secondary_camera_available" style="width:220px;">
+                  {%if productedit.secondary_camera_available == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+               <div class="control-group">
+                <label class="control-label">Secondary Camera</label>
+                <div class="controls">
+                  <input type="text" name="secondary_camera" value="{{productedit.secondary_camera}}" placeholder="Secondary Camera" id="secondary_camera" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label"> Secondary Camera Features</label>
+                <div class="controls">
+                  <textarea name="secondary_camera_features" placeholder="Secondary Camera Features" id="description" cols="30" rows="3" required="">{{productedit.secondary_camera_features}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Flash</label>
+                <div class="controls">
+                  <input type="text" name="flash" placeholder="Flash" value="{{productedit.flash}}" id="flash" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Dual Camera Lens</label>
+                <div class="controls">
+                  <input type="text" name="dual_camera_lens" placeholder="Dual Camera Lens" value="{{productedit.dual_camera_lens}}" id="dual_camera_lens" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Network Type</label>
+                <div class="controls">
+                  <input type="text" name="network_type" placeholder="Network Type" value="{{productedit.network_type}}" id="network_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Supported Networks</label>
+                <div class="controls">
+                  <input type="text" name="supported_networks" placeholder="Supported Networks" value="{{productedit.supported_networks}}" id="supported_networks" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Internet Connectivity</label>
+                <div class="controls">
+                  <input type="text" name="internet_connectivity" value="{{productedit.internet_connectivity}}" placeholder="Internet Connectivity" id="internet_connectivity" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">GPRS</label>
+              <div class="controls">
+                <select name="gprs" style="width:220px;">
+                  {%if productedit.gprs == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Pre-installed Browser</label>
+                <div class="controls">
+                  <input type="text" name="pre_installed_browser" value="{{productedit.pre_installed_browser}}" placeholder="Pre-installed Browser" id="pre_installed_browser" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Blutooth Support</label>
+              <div class="controls">
+                <select name="blutooth_support" style="width:220px;">
+                  {%if productedit.blutooth_support == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Bluetooth Version</label>
+                <div class="controls">
+                  <input type="text" name="blutooth_version" placeholder="Bluetooth Version" value="{{productedit.blutooth_version}}" id="blutooth_version" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Wifi</label>
+              <div class="controls">
+                <select name="wifi" style="width:220px;">
+                  {%if productedit.wifi == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Wi-Fi Version</label>
+                <div class="controls">
+                  <input type="text" name="wifi_version" placeholder="Wi-Fi Version" value="{{productedit.wifi_version}}" id="wifi_version" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">USB Connectivity</label>
+              <div class="controls">
+                <select name="usb_connectivity" style="width:220px;">
+                  {%if productedit.usb_connectivity == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Audio Jack</label>
+                <div class="controls">
+                  <input type="text" name="audio_jack" placeholder="Audio Jack" value="{{productedit.audio_jack}}" id="audio_jack" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Touchscreen Type</label>
+                <div class="controls">
+                  <input type="text" name="touchscreen_type" placeholder="Touchscreen Type" value="{{productedit.touchscreen_type}}" id="touchscreen_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">SIM Size</label>
+                <div class="controls">
+                  <input type="text" name="sim_size" placeholder="SIM Size" value="{{productedit.sim_size}}" id="sim_size" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Sensors</label>
+                <div class="controls">
+                  <textarea name="sensors" id="description" placeholder="Sensors" cols="30" rows="3" required="">{{productedit.sensors}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Other Features</label>
+                <div class="controls">
+                  <textarea name="other_features" id="description" placeholder="Other Features"  cols="30" rows="3" required="">{{productedit.other_features}}</textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">GPS Type</label>
+                <div class="controls">
+                  <input type="text" name="gps_type" placeholder="GPS Type" value="{{productedit.gps_type}}" id="gps_type" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">FM Radio</label>
+              <div class="controls">
+                <select name="fm_radio" style="width:220px;">
+                  {%if productedit.fm_radio == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Audio Formats</label>
+              <div class="controls">
+                <select name="music_player" style="width:220px;">
+                  {%if productedit.music_player == 0 %}
+                    <option value="0" hidden="">NO</option>
+                  {%else%}
+                    <option value="1" hidden="">YES</option>
+                  {%endif%}
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Video Formats</label>
+                <div class="controls">
+                  <input type="text" name="video_format" placeholder="Video Formats" value="{{productedit.video_format}}" id="video_format" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Battery Capacity</label>
+                <div class="controls">
+                  <input type="text" name="battery_capacity" value="{{productedit.battery_capacity}}" placeholder="Battery Capacity" id="battery_capacity" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Width</label>
+                <div class="controls">
+                  <input type="text" name="width" placeholder="Width" value="{{productedit.width}}" id="width" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Height</label>
+                <div class="controls">
+                  <input type="text" name="height" placeholder="Height" value="{{productedit.height}}" id="height" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Depth</label>
+                <div class="controls">
+                  <input type="text" name="depth" placeholder="Depth" value="{{productedit.depth}}" id="depth" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Weight</label>
+                <div class="controls">
+                  <input type="text" name="weight" placeholder="Weight" value="{{productedit.weight}}" id="weight" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Warranty Summary</label>
+                <div class="controls">
+                  <textarea name="warranty" id="description" placeholder="Warranty" cols="30" rows="3" required="">{{productedit.warranty}}</textarea>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <input id="next" class="btn btn-primary" type="submit" value="Update Product" />
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+        }, 2000);
+</script>
+{% endblock%} 

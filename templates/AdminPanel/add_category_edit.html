@@ -1,0 +1,59 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Category Form</a> </div>
+    <h1>Category Form</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
+            <h5>Category Form</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form id="form-wizard" class="form-horizontal" method="POST" action="{% url 'add_category_from_update' categoryedit.id %}">
+            {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">Category Name</label>
+                <div class="controls">
+                  <input id="username" type="text" name="name" placeholder="Category name" value="{{categoryedit.name}}" required/>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <label class="control-label">Select Category</label>
+                <div class="controls">
+                  <select name="parent"  class="form-control">
+                    {%for categoryparent in categoryparent%}
+                    <option hidden="" value="{{categoryparent.id}}" >{{categoryparent.name}}</option>
+                    {%endfor %}
+                    {%for categoryData in categoryData%}
+                    <option value="{{categoryData.id}}" >{{categoryData.name}}</option>
+                    {%endfor %}
+			            </select>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <label class="control-label">Category Url</label>
+                <div class="controls">
+                  <input id="username" type="text" name="url" placeholder="Category url" value="{{categoryedit.url}}" required/>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <input id="next" class="btn btn-primary" type="submit" value="Next" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock%} 

@@ -1,0 +1,118 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        th,td{
+        /*padding:5px;*/
+        font-size: 16px;
+        }
+        th{
+        background-color:red;
+        color:white;
+        font-size: 16px;
+        }
+
+        @page{
+         size:a4 portrait;
+             @frame header_frame {
+                   -pdf-frame-content:header_content;
+                   left:60pt;
+                   width:512pt;
+                   top:60pt;
+                   height:50pt
+             }
+             @frame footer_frame {
+                   -pdf-frame-content:footer_content;
+                   left:490pt;
+                   width:512pt;
+                   top:772pt;
+                   height:30pt
+             }
+             @frame content_frame {
+                left:50pt;
+                width:512pt;
+                top:90pt;
+                height:620pt;
+             }
+
+        }
+    </style>
+<!--     <link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/bootstrap.css' %}">
+ --></head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td>
+                <b>{{companydata.company_name}}</b> <br>{{companydata.address}}<br>{{companydata.email}}<br>
+                {{companydata.contact_no}}
+            </td>
+        </tr>
+        <tr>
+            {% for data in data|slice:":1" %}
+            <td style="margin-left: 420px;">DT : {{data.order_date}}</td>
+            {%endfor%}
+        </tr>
+    </table>
+    <table border="1" style="padding-top: 5px;padding-left: 5px;">
+        <tr>
+            <th style="text-align: left">Shipping Address</th>
+            <th style="text-align: left;">Billing Address</th>
+        </tr>
+        <tr>
+            {% for data in data|slice:":1" %}
+            <td>
+                <b>{{data.develiery_address.customer_name}}</b> <br>{{data.develiery_address.address}} , {{data.develiery_address.landmark}}<br>{{data.develiery_address.email}}<br>
+                {{data.develiery_address.area.city.name}}-{{data.develiery_address.area.pincode}}<br>{{data.develiery_address.area.city.state.name}}
+            </td>
+            {%endfor%}
+            {% for data in data|slice:":1" %}
+            <td>
+                <b>{{data.customer_name}}</b> <br>{{data.address}} , {{data.landmark}}<br>{{data.email}}<br>
+                {{data.area.city.name}}-{{data.area.pincode}}<br>{{data.area.city.state.name}}
+            </td>
+            {%endfor%}
+        </tr>
+    </table>
+</div>
+<br>
+<div>
+    <table border="" style="padding-top: 5px;padding-left: 5px;">
+        <tr>
+            <th>No</th>
+            <th>Product Name</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+        {% for data in data %}
+            <tr>
+                <td style="text-align: center;">{{ forloop.counter }}</td>
+                <td style="text-align: center;">{{data.product_attributes.product.product_name}} ({{data.product_attributes.rom}},{{data.product_attributes.ram}})</td>
+                <td style="text-align: center;">{{data.qty}}</td>
+                <td style="text-align: center;">{{data.total}}</td>
+             </tr>
+        {% endfor %}
+    </table>
+    <table>
+        <tr style="padding-top: 15px;">
+             <td colspan="3" style="margin-left: 370px;font-size: 18px;">Shipping Charge:</td>
+             {% for data in data|slice:":1" %}
+                <td style="text-align: center;;font-size: 16px;">00 /-</td>
+             {%endfor%}
+         </tr>
+        <tr>
+             <td colspan="3" style="margin-left: 370px;font-size: 18px;">Total Amount:</td>
+             {% for data in data|slice:":1" %}
+                <td style="text-align: center;;font-size: 16px;">{{data.amount}} /-</td>
+             {%endfor%}
+         </tr>
+    </table>
+</div>
+<div id="footer_content">
+    <span style="font-size: 14px;">Page No. <pdf:pagenumber>/<pdf:pagecount></span>
+</div>
+
+</body>
+</html>

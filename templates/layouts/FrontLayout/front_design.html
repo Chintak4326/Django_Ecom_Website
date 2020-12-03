@@ -1,0 +1,242 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<!-- Mirrored from aaryaweb.info/html/stylexpo/stx001/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 04 Jul 2020 05:29:55 GMT -->
+<head>
+<!-- Basic Page Needs
+  ================================================== -->
+<meta charset="utf-8">
+<title>A to Z Electronic</title>
+<!-- SEO Meta
+  ================================================== -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="distribution" content="global">
+<meta name="revisit-after" content="2 Days">
+<meta name="robots" content="ALL">
+<meta name="rating" content="8 YEARS">
+<meta name="Language" content="en-us">
+<meta name="GOOGLEBOT" content="NOARCHIVE">
+<!-- Mobile Specific Metas
+  ================================================== -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- CSS
+  ================================================== -->
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/font-awesome.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/bootstrap.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/fotorama.css' %}"> 
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/magnific-popup.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/custom.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'FrontEnd/css/responsive.css' %}">
+<link rel="shortcut icon" href="{% static 'FrontEnd/images/favicon.png' %}">
+<link rel="apple-touch-icon" href="{% static 'FrontEnd/images/apple-touch-icon.html' %}">
+<link rel="apple-touch-icon" sizes="72x72" href="{% static 'FrontEnd/images/apple-touch-icon-72x72.html' %}">
+<link rel="apple-touch-icon" sizes="114x114" href="{% static 'FrontEnd/images/apple-touch-icon-114x114.html' %}">
+<link rel="stylesheet" href="{% static 'AdminPanel/css/sweetalert.css' %}" />
+</head>
+<body class="homepage" onload="changecategory();categdata();hide();footer_data();cart_count();cart_details();">
+
+
+<div class="main">
+
+{% include "layouts/FrontLayout/front_header.html" %}
+
+{% block content %}
+
+{% endblock %}
+
+{% include "layouts/FrontLayout/front_footer.html" %}
+
+</div>
+<script src="{% static 'FrontEnd/js/jquery-1.12.3.min.js' %}"></script> 
+<script src="/../../../../cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="{% static 'FrontEnd/js/bootstrap.min.js' %}"></script>  
+<script src="{% static 'FrontEnd/js/jquery.downCount.js' %}"></script>
+<script src="{% static 'FrontEnd/js/jquery-ui.min.js' %}"></script> 
+<script src="{% static 'FrontEnd/js/fotorama.js' %}"></script>
+<script src="{% static 'FrontEnd/highlight.html' %}"></script>
+<script src="{% static 'FrontEnd/app.html' %}"></script>
+<script src="{% static 'FrontEnd/js/jquery.magnific-popup.js' %}"></script> 
+<script src="{% static 'FrontEnd/js/owl.carousel.min.js' %}"></script>  
+<script src="{% static 'FrontEnd/js/custom.js' %}"></script>  
+<script src="{% static 'AdminPanel/js/sweetalert.js' %}"></script>
+<script src="{% static 'FrontEnd/js/remove.js' %}"></script>
+
+ <script>
+  $('#searching').keyup(function(){
+    var search=$('#searching').val();
+    if(search !=='' && search !==null)
+    {    
+        $.ajax({
+          type: "GET",
+          url: "{% url 'search' %}",
+          data:'id='+search,
+          cache: false,
+          success: function(response)
+          {
+            $('#showList').show();
+            $('#showList').html(response);
+          }
+        });
+    }
+    else
+    {
+        $('#showList').show();
+        $('#showList').html('');
+    }
+  });
+  function footer_data()
+    {
+      $.ajax({
+        type: "GET",
+        url: "{% url 'footer' %}",
+        cache: false,
+        success: function(response)
+        {
+          $("#foot").html(response);
+        }
+      });
+    }
+    function changecategory(){
+      $.ajax({
+        type: "GET",
+        url: "{% url 'category' %}",
+        cache: false,
+        success: function(response)
+        {
+          $("#categorydata").html(response);
+        }
+      });
+    }
+    function categdata(){
+      $.ajax({
+        type: "GET",
+        url: "{% url 'categodata' %}",
+        cache: false,
+        success: function(response)
+        {
+            $("#catgordata").html(response); 
+        }
+      });
+    }
+    function hide(){
+      $("#update").hide();
+      $("#add_address").hide();
+      $('#showList').hide();
+    }
+    function cart_details()
+    {
+      $.ajax({
+        type: "GET",
+        url: "{% url 'cartdata' %}",
+        cache: false,
+        success: function(response)
+        {
+          $("#cart_details_data").html(response); 
+        }
+      });
+    }
+    function cart_count()
+    {
+      $.ajax({
+        type: "GET",
+        url: "{% url 'cart_length' %}",
+        cache: false,
+        success: function(response)
+        {
+          if(response==0)
+            document.getElementById('cart_checkout_data').hidden=true;
+          else
+          {
+            document.getElementById('count').innerText=response;
+            document.getElementById('cart_checkout_data').hidden=false;
+            document.getElementById('cart_checkout_data_hide').hidden=true;
+          }
+        }
+      });
+    }
+    function selectcity(){
+      var id = $(".city").val();
+      $.ajax({
+        type: "GET",
+        url: "{% url 'city' %}",
+        data: {id:id},
+        cache: false,
+        success: function(response)
+        {
+          document.getElementById('getcity').value=response;
+        }
+      });
+    }
+    function selectstate(){
+      var id = $(".city").val();
+      $.ajax({
+        type: "GET",
+        url: "{% url 'state' %}",
+        data: {id:id},
+        cache: false,
+        success: function(response)
+        {
+          document.getElementById('getstate').value=response;
+        }
+      });
+    }
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubePlayerAPIReady() {
+      player = new YT.Player('player', {
+        playerVars: { 'rel': 0, 'autoplay': 1, 'controls': 0,'autohide':1,'showinfo': 0, 'wmode':'opaque' },
+        videoId: 'Lgitw016T44',
+        //suggestedQuality: 'hd720',
+        events: {
+          'onReady': onPlayerReady}
+      });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+      event.target.mute();
+      event.target.setPlaybackQuality('hd720');
+      //$(".video").fitVids();
+      
+      $('.video i').on('click',function() {
+        if ($('.video').hasClass('on')) {
+          event.target.mute();
+          $('.video').removeClass('on');
+        } else {
+          event.target.unMute();
+          $('.video').addClass('on');
+        }
+      });
+      
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.BUFFERING) {
+            event.target.setPlaybackQuality('hd720');
+        }
+    }
+
+    
+    </script>
+
+
+</body>
+
+<!-- Mirrored from aaryaweb.info/html/stylexpo/stx001/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 04 Jul 2020 05:33:00 GMT $("#").append(response); -->
+</html>
+
+</body>

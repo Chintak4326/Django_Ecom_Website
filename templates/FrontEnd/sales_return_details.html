@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="cols-lg-12">
+      <table>
+        <thead>
+          {% for data in salesreturndata|slice:":1" %}
+            {% if data.reason !=  "" %}
+             <tr>
+                <th style="text-align: center;color: red">Product</th>
+                <th style="text-align: center;color: red">Product Name</th>
+                <th style="text-align: center;color: red">Quantity</th>
+              </tr>
+            {% elif data.reason == "" %}
+              <tr>
+                <label>This order Product is not Returned.</label>
+              </tr>
+            {% endif %}
+          {%endfor%}
+        </thead>
+        {% for data in salesreturndata %}
+        <tbody id="data_show">
+          <tr>
+            <td style="width:200px;" >
+              <img  src="/media/{{data.sales.order.product_attributes.product.images}}" style="width: 200px;height: 150px;">
+            </td>
+
+            <td style="width:400px;text-align: center;">
+              <label>{{data.sales.order.product_attributes.product.product_name}} ({{data.sales.order.product_attributes.rom}},{{data.sales.order.product_attributes.ram}})
+                </label> 
+            </td>
+            <td style="width:100px;text-align: center;">
+              <span>{{data.sales.order.qty}}</span> 
+            </td>
+          </tr>
+        </tbody>
+        {%endfor%}
+      </table>
+    </div>
+</div>
+

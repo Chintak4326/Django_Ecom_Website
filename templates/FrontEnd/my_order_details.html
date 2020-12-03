@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="cols-lg-12">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: center;color: red">Product</th>
+            <th style="text-align: center;color: red">Product Name</th>
+            <th style="text-align: center;color: red">Quantity</th>
+            {% for data in data|slice:":1" %}
+              {% if data.order_status == "Delivered" %}
+                <th style="text-align: center;color: red">Action</th>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        {% for data in data %}
+        <tbody id="data_show">
+          <tr>
+            <td style="width:200px;" >
+              <img  src="/media/{{data.product_attributes.product.images}}" style="width: 200px;height: 150px;">
+            </td>
+
+            <td style="width:400px;text-align: center;">
+              <label>{{data.product_attributes.product.product_name}} ({{data.product_attributes.rom}},{{data.product_attributes.ram}})
+                </label> 
+            </td>
+            <td style="width:100px;text-align: center;">
+              <span>{{data.qty}}</span> 
+            </td>
+            
+            {% if data.order_status == "Delivered" %}
+              <td style="width:100px;text-align: center;">
+                <button class="fa fa-trash art-remove-item fa-2x" onclick="show_order_cancle({{data.id}})" style="background: none"></button>
+                <!-- <a rel="cart_delete" onclick="remove({{data.id}},this.rel)"  style="color: : red;"></a> -->
+              </td>
+            {% endif %}
+          </tr>
+        </tbody>
+        {%endfor%}
+      </table>
+    </div>
+</div>
+<div class="row" id="reason">
+    <div style="margin-top: 25px;margin-left: 40px;">
+      <label style="color: red;font-size: 18px;" >Reason :- </label>
+    </div>
+    <div style="margin-top: 20px;margin-left: 70px;">
+      <textarea class="form-control" id="reasons" rows="1" cols="62" maxlength="100" placeholder="Reason Of Return Product....."></textarea>
+    </div>
+    <div style="margin-top: 20px;margin-left: 580px;" >
+      <button class="btn btn-primary" style="background-color: red" onclick="return_product()">Apply For Return</button>
+    </div>
+</div>
+<script type="text/javascript">
+  $("#reason").hide();
+  var oid;
+  function show_order_cancle(id){
+    oid=id;
+    $.ajax({
+      type: "GET",
+      url:"{% url 'return_orders__msg' %}",
+      data:{id:oid},
+      success: function(data){
+        if(data>=1){
+          swal("", "This Product Is Already Return")
+          $("#reason").hide();
+        }
+        else if(data==0)
+        {
+          $("#reason").show();
+        }
+      }
+    });
+    
+  }
+  function return_product()
+  {
+    reason=document.getElementById("reasons").value;
+    if(document.getElementById("reasons").value==0)
+    {
+      swal("", "Please Enter Reason")
+    }
+    else
+    {
+      $.ajax({
+        type: "GET",
+        url:"{% url 'return_orders' %}",
+        data:{id:oid,reason:reason},
+        success: function(data){
+          location.reload();
+        }
+      });
+    }
+  }
+</script>

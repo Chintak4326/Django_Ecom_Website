@@ -1,0 +1,25 @@
+{%for data in categoryData%}
+  {%if data.parent_id == 2 %}
+  <li class="level sub-megamenu">
+    <span class="opener plus"></span>
+    <a href="{% url 'shop' data.url %}" class="page-scroll">{{data.name}}</a>
+    <div class="megamenu mobile-sub-menu" style="margin-top: 2px;">
+      <div class="megamenu-inner-top">
+        <ul class="sub-menu-level1">
+          <li class="level2">
+            <span>{{data.name}}</span>
+            <ul class="sub-menu-level2 ">
+              {%for subdata in subcategoryData%}
+                {%if data.id == subdata.parent_id %}
+              <li style="margin-top: 10px;"><a href="{% url 'shopdata' subdata.url %}"><span>■</span> {{subdata.name}}</a></li>
+              {%endif%}
+            {%endfor%}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+  {%endif%}
+{%endfor%}
+<li></li>

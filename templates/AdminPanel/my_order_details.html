@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="cols-lg-12">
+      <table>
+        <thead>
+          <tr>
+            <th style="font-size: 16px;">Product</th>
+            <th style="font-size: 16px;">Product Name</th>
+            <th style="font-size: 16px;">Quantity</th>
+          </tr>
+        </thead>
+        {% for data in data %}
+        <tbody id="data_show">
+          <tr>
+            <td style="width:200px;" >
+              <img  src="/media/{{data.product_attributes.product.images}}" style="width: 230px;height: 150px;">
+            </td>
+
+            <td style="width:400px;">
+              <label style="text-align: center;font-size: 16px;">{{data.product_attributes.product.product_name}} ({{data.product_attributes.ram}},{{data.product_attributes.rom}})
+                </label> 
+            </td>
+            <td style="width:100px;">
+              <label style="text-align: center;font-size: 16px;">{{data.qty}}</label>
+            </td>
+            
+          </tr>
+        </tbody>
+        {%endfor%}
+        
+      </table>
+        
+    </div>
+</div>

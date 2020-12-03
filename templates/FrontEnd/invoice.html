@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="style.css" media="all" />
+    <style>
+        body{
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        }
+    </style>
+  </head>
+  <body>
+    <header class="clearfix">
+      <div class="header">
+        <h1 style="text-align: center; font-size:40px;">Invoice</h5>
+      </div>
+      <div id="company" class="clearfix">
+        <h3 style="margin:none;font-size: 18px;">{{companydata.company_name}}</h3>
+        <div style="font-size: 15px;">{{companydata.address}}</div>
+        <div style="font-size: 15px;">{{companydata.contact_no}}</div>
+        <div style="font-size: 15px;">{{companydata.email}}</div>
+        <hr>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="service" style="text-align: left;width: 400px;"><h3 style="margin-bottom:none;font-size: 18px;">Shipped To:</h3></th>
+            <th class="desc" style="text-align: left;width: 400px;"><h3 style="margin-bottom:none;font-size: 18px;">Billed To:</h3></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for data in data|slice:":1" %}
+            <td style="font-size: 15px;">
+                {{data.develiery_address.customer_name}}<br>{{data.develiery_address.address}} , {{data.develiery_address.landmark}}<br>{{data.develiery_address.email}}<br>{{data.develiery_address.area.city.name}}-{{data.develiery_address.area.pincode}}<br>{{data.develiery_address.area.city.state.name}}
+            </td>
+            {%endfor%}
+            
+            {% for data in data|slice:":1" %}
+            <td style="font-size: 15px;">
+               {{data.customer_name}} <br>{{data.address}} , {{data.landmark}}<br>{{data.email}}<br>{{data.area.city.name}}-{{data.area.pincode}}<br>{{data.area.city.state.name}}
+            </td>
+            {%endfor%}
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <table>
+        <thead>
+          <tr>
+            <th class="service" style="text-align: left;width: 400px;"><h3 style="margin-bottom:none;font-size: 18px;">Payment Method:</h3></th>
+            <th class="desc" style="text-align: left;width: 400px;"><h3 style="margin-bottom:none;font-size: 18px;">Order Date:</h3></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size: 15px;">
+                COD
+            </td>
+            {% for data in data|slice:":1" %}
+                <td style="font-size: 15px;">
+                DT : {{data.order_date}}
+                </td>
+            {%endfor%}
+           </tr>
+        </tbody>
+      </table>
+    </header>
+    <main>
+      <h3 style="font-size: 18px;">Order Summary:  </h3>
+      <table style="border: 2px solid;">
+        <thead>
+          <tr>
+            <th class="service" style="background-color: #ddd; width:70px;padding:3px;font-size: 16px;">No</th>
+            <th class="desc" style="background-color: #ddd;width:365px;padding:6px;font-size: 16px;">Product Name</th>
+            <th style="background-color: #ddd;width:120px;padding:6px;font-size: 16px;">Price</th>
+            <th style="background-color: #ddd;width:70px;padding:6px;font-size: 16px;">Qty</th>
+            <th style="background-color: #ddd;width:110px;padding:6px;font-size: 16px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in data %}
+            <tr style="font-size: 15px;">
+                <td class="service" style="text-align: center;padding-top: 10px;">{{ forloop.counter }}</td>
+                <td class="desc" style="padding-top: 10px;">{{data.product_attributes.product.product_name}} ({{data.product_attributes.rom}},{{data.product_attributes.ram}})</td>
+                <td class="unit" style="text-align: center;padding-top: 10px;">RS. {{data.product_attributes.price}}</td>
+                <td class="qty" style="text-align: center;padding-top: 10px;">{{data.qty}}</td>
+                <td class="total" style="text-align: center;padding-top: 10px;">RS. {{data.total}}</td>
+             </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <br><br>
+      <table>
+        <tr style="padding-top: 10px;">
+             <td colspan="5" style="margin-left: 380px;font-size: 18px;font-weight:bold;">Sub Total</td>
+             {% for data in data|slice:":1" %}
+                <td style="text-align: center;font-size: 15px;">RS. {{data.amount}} /-</td>
+             {%endfor%}
+         </tr>
+        <tr>
+             <td colspan="5" style="margin-left: 380px;font-size: 18px;font-weight:bold;">Shipping Charges (+)</td>
+             <td style="font-size: 15px;padding-left: 9px;">RS. 00 /-</td>
+        </tr>
+        <tr>
+             <td colspan="5" style="margin-left: 380px;font-size: 18px;font-weight:bold;">Grand Total</td>
+             {% for data in data|slice:":1" %}
+                <td style="text-align: center;font-size: 15px;">RS. {{data.amount}} /-</td>
+             {%endfor%}
+         </tr>
+      </table>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %}
+ <section class="ptb-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="responsive-part">
+            <div class="row">
+              <div class="col-sm-12 partner-detail-main">
+                <div class="heading-part">
+                  <h2 class="main_title " style="text-align: center;"><span>Welcome to our Site</span></h2>
+                </div>
+              </div>
+              <!-- <div class="col-sm-12">
+                <div class="col-sm-6 col-xs-6 welcome-grids">
+					<div class="welcome-img">
+                        <img src="image/shop33.jpg" class="img-responsive zoom-img" alt="">
+					</div>
+				</div>
+				<div class="col-sm-6 col-xs-6 welcome-grids">
+					<div class="welcome-img">
+						<img src="image/shop2.jpg" class="img-responsive zoom-img" alt="">
+					</div>
+				</div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="responsive-part">
+            <div class="row">
+              <div class="col-sm-12 partner-detail-main">
+                <div class="heading-part mb-30">
+                  <p class="footer-main">
+					<span>"A to Z Electronic System"</span> is a web site will allow customer to purchase a product using internet and It will provide online purchasing of various kinds of Mobiles, Teblets & Ipads.
+                    We have been in the business for quite a while now, and it that time we have not only managed to make close relationships with numerous suppliers all over the country, but also to recognize what people need. This means that we are always able to offer all the latest phones, great prices, reliable service, fast delivery and premium customer support.
+				</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+   <section class=" client-main align-center">
+    <div class="container">
+      <div class="contact-info">
+        <div class="row m-0">
+          <div class="col-md-4 p-0">
+            <div class="contact-box">
+              <div class="contact-icon contact-phone-icon"></div>
+              <span><b>Tel</b></span>
+              <p>{{data.contact_no}}</p>
+            </div>
+          </div>
+          <div class="col-md-4 p-0">
+            <div class="contact-box">
+              <div class="contact-icon contact-mail-icon"></div>
+              <span><b>Mail</b></span>
+              <p>{{data.email}}</p>
+            </div>
+          </div>
+          <div class="col-md-4 p-0">
+            <div class="contact-box">
+              <div class="contact-icon contact-open-icon"></div>
+              <span><b>Open</b></span>
+              <p>Mon – Sat: 9:00 – 18:00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br><br>
+{% endblock %}

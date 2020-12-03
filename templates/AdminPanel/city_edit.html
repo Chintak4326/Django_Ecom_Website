@@ -1,0 +1,66 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">City Form</a> </div>
+    <h1>City</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
+            <h5>City Form</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                  <p class="alert alert-info">{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <form id="form-wizard" class="form-horizontal" enctype="multipart/form-data" method="POST" action="{% url 'city_update' cityedit.id %}">
+            {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">City Name</label>
+                <div class="controls">
+                  <input id="name" type="text" name="name" required="" placeholder="City name" value="{{cityedit.name}}"/>
+                </div>
+              </div>
+
+              <div class="control-group">
+              <label class="control-label">Select State</label>
+              <div class="controls">
+                <select name="state" style="width:220px;">
+                  {%for statename in statename%}
+                  <option hidden="" value="{{statename.id}}">{{statename.name}}</option>
+                  {%endfor%}
+                  {%for data in statedata%}
+                    <option value="{{data.id}}">{{data.name}}</option>
+                  {%endfor %}
+                </select>
+              </div>
+              </div>
+
+              <div class="form-actions">
+                <input id="next" class="btn btn-primary" type="submit" value="Update City" />
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+        }, 2000);
+</script>
+{% endblock%} 

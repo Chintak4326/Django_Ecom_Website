@@ -1,0 +1,31 @@
+{%for data in categoryData%}
+{%if data.parent_id == 2 %}
+<div class="card" style="margin: 0px auto;">
+
+<div class="card-header">
+<h2 class="mb-0">
+
+    <a type="button" data-toggle="collapse" data-target="#collapseOne{{data.id}}" style="border: none;color: black;text-decoration: none;font-size: 18px;font-family: sans-serif;"><i class="fa fa-plus" style="color: red;margin-top: 12px;"> {{data.name}}</i></a>                  
+</h2>
+</div>
+<div id="collapseOne{{data.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+  {%for subdata in subcategoryData%}
+        {%if data.id == subdata.parent_id %}
+<div class="card-body">
+    <ul class="sub-menu-level2 ">
+      
+          <li class="level3" style="margin:2.5px 0 5px 30px;font-size: 15px;">
+            <a href="{% url 'shopdata' subdata.url %}">
+              <span><i class="fa fa-angle-double-right" style="size: 15px;"></i>
+                
+              </span>{{subdata.name}}</a>
+            </li>
+      
+    </ul>
+</div>
+{%endif%}
+    {%endfor%}
+</div>
+</div>
+{%endif%}
+{%endfor %}

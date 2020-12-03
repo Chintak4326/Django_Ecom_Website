@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A To Z Electronic</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{% static 'AdminPanel/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'AdminPanel/css/bootstrap-responsive.min.css' %}" />
+        <link href="{% static 'AdminPanel/css/stylelogin.css' %}" rel='stylesheet' type='text/css' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> -->
+        <!--webfonts-->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+        <!--//webfonts-->
+</head>
+<body>
+     <!-----start-main---->
+     <div class="main">
+        <div class="login-form">
+            <h1>Admin Login</h1>
+                    <div class="head">
+                        <img src="{% static 'images/user.png' %}" alt=""/>
+                    </div>
+                <form method="POST">
+                    {% csrf_token %}
+                        <input type="text" class="text" placeholder="USERNAME" name="username" required="">
+                        <input type="password" placeholder="PASSWORD" name="password" required="">
+                        <div class="submit">
+                            <input type="submit" onclick="myFunction()" value="LOGIN" >
+                    </div>  
+                </form>
+                <div>
+                {% if messages %}
+                {% for message in messages %}
+                  <p class="alert alert-info" >{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            </div>
+            <!--//End-login-form-->
+        </div>
+             <!-----//end-main---->
+                
+</body>
+</html>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+        }, 2000);
+</script>

@@ -1,0 +1,1018 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %}
+  <!-- CONTAIN START -->
+  <section class="pt-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            {% for data in data %}
+            <div class="col-lg-5 col-md-5 mb-xs-30">
+              <div class="fotorama" data-nav="thumbs" data-allowfullscreen="native"> 
+
+                <a href="#"><img src="/media/{{data.images}}" alt="Stylexpo"></a> 
+                {% for proimg in  proimg%}
+                  <a href="#"><img src="/media/{{proimg.url}}" alt="Stylexpo"></a> 
+                {%endfor%}
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7">
+              <div class="row">
+                <div class="col-12">
+                 
+                  <div class="product-detail-main">
+                    <div class="product-item-details">
+                      <h1 class="product-item-name" style="text-transform: capitalize;">{{data.product_name }}
+                        <label for="code" id="getram" style="color:#ff3030;"> ({{ data.ram }},</label>
+                        <label for="code" id="getrom" style="color:#ff3030;"> {{ data.rom }})</label>
+                      </h1>
+                      <label for="code">Model Number: {{ data.model_code }}</label>
+                      </div>
+                      <div class="price-box"> 
+                        <label id="getPrice" class="getPrice" style="color:red;font-weight:600;float: left;">RS. {{data.price}}</label> 
+                      </div>
+                      <br>
+                      <div class="product-info-stock-sku">
+                        <div>
+                          <label>Availability: </label>
+                          {%if data.stock == 0 %}
+                            <span class="info-deta" style="color:#007600!important;" id="getstock">Out Of Stock</span> 
+                          {%else%}
+                            <span class="info-deta" style="color:#007600!important;" id="getstock">In Stock</span> 
+                          {%endif%}
+                          
+                        </div>
+                      </div>
+                      <p>{{data.description}}</p>
+                      
+                      <div class="product-color select-dropdown mb-20">
+                        <label>Colors & Variants</label>
+                        <fieldset>
+                          <select class="selectpicker form-control browser-default custom-select price" id="select-by-color" onchange="gettingbutton();gettingprice();gettingstock();gettingram();gettingrom();">
+                            {% for varient in  varient%}
+                              {%if varient.id == data.id %}
+                                <option value="{{varient.id}}" selected="">{{varient.color}} ({{varient.ram}}, {{varient.rom}})</option>
+                              {%else%}
+                                <option value="{{varient.id}}">{{varient.color}} ({{varient.ram}}, {{varient.rom}})</option>
+                              {%endif%}
+                              
+                            {%endfor%}
+                          </select>
+                        </fieldset>
+                      </div>
+                      <div class="pb-10">
+                        <div class="warranty">
+                            <label for="">Warranty:</label>  {{ data.warranty }}
+                        </div>
+                      </div>
+                      <div class="pb-10">
+                        <div class="warranty">
+                            <label for="">Replacement Policy:</label>  10 Days.
+                        </div>
+                      </div>
+                      <div class="pb-10">
+                        <div class="warranty">
+                            <input type="text" hidden="" name="" id="pid" value="{{data.product_id}}">
+                        </div>
+                      </div>
+                      <div class="mb-20">
+                        <!-- <div class="product-qty">
+                          <label for="qty">Qty:</label>
+                          <div class="custom-qty">
+                            <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) result.value--;return false;" class="reduced items" type="button"> <i class="fa fa-minus"></i> </button>
+                            <input type="text" class="input-text qty" title="Qty" value="1" maxlength="1" id="qty" name="qty">
+                            <button onclick="var result = document.getElementById('qty'); 
+                              var qty = result.value; 
+                              if( !isNaN( qty )) 
+                                result.value++;
+                              return false;" 
+                              class="increase items" type="button"> <i class="fa fa-plus"></i> </button>
+                          </div>
+                        </div> -->
+                        <script type="text/javascript">
+                          var flag=0;
+                          var count=0;
+                        </script>
+                        {% if request.session.username %}
+                          {%for cartdata in cartdata%}
+                            {% if cartdata.product_attributes_id == data.id %}
+                              <script type="text/javascript">flag=1;</script>
+                            {%endif%}
+                          {%endfor%}
+                        {%endif%}
+                        {% for varient in  varient%}
+                          {% if data.stock == 0 and data.id == varient.id %}
+                            <script type="text/javascript">count=1;</script>
+                          {%endif%}
+                        {%endfor%}
+                        <div class="bottom-detail cart-button">
+                          <ul>
+                            <li class="pro-cart-icon">
+                              <form>
+                                <button type="button"  title="Add to Cart" id="add_cart" class="btn-color" onclick="add_to_cart();"><span></span>Add to Cart</button>
+                                <button type="button" title="Go To Cart" id="go_cart" onclick="cart();" class="btn-color"><i class="fa fa-share-square-o"></i> Go to Cart</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="share-link">
+                        <label>Share This : </label>
+                        <div class="social-link">
+                          <ul class="social-icon">
+                            <li><a class="facebook" title="Facebook" href="#"><i class="fa fa-facebook"> </i></a></li>
+                            <li><a class="twitter" title="Twitter" href="#"><i class="fa fa-twitter"> </i></a></li>
+                            <li><a class="linkedin" title="Linkedin" href="#"><i class="fa fa-linkedin"> </i></a></li>
+                            <li><a class="rss" title="RSS" href="#"><i class="fa fa-rss"> </i></a></li>
+                            <li><a class="pinterest" title="Pinterest" href="#"><i class="fa fa-pinterest"> </i></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+        
+    </div>
+  </section>
+
+  <section class="ptb-70">
+    <div class="container">
+        <h3 class="align-center mt-70" style="background: #ff3030;border-radius: 5px;padding: 7px;font-size: 25px;color: white;font-weight: 500;border: none;text-transform: inherit;">Specifications / Features</h3>
+      <div class="product-detail-tab">
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="tabs">
+              <ul class="nav nav-tabs">
+                <li><a class="tab-General selected" title="General">General</a></li>
+                <li><a class="tab-Display" title="Display">Display</a></li>
+                <li><a class="tab-Processor" title="Processor">Os & Processor</a></li>
+                <li><a class="tab-Storage" title="Storage">Memory & Storage</a></li>
+                <li><a class="tab-camera" title="camera">Camera</a></li>
+                <li><a class="tab-Connectivity" title="Connectivity">Connectivity</a></li>
+                <li><a class="tab-Details" title="Details">Other Details</a></li>
+                <li><a class="tab-Multimedia" title="Multimedia">Multimedia & Battery</a></li>
+                <li><a class="tab-Dimensions" title="Dimensions">Dimensions</a></li>
+              </ul>
+            </div>
+            <div id="items">
+              <div class="tab_content">
+                <ul>
+                  {% for data in data %}
+                  <li>
+                    <div class="items-General selected ">
+                      <div class="General"> 
+                        <table id="feat" style="border: none;">
+                          <tr>
+                            <td id="head">Model Name</td>
+                            <td>{{ data.model_name }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Model Number</td>
+                            <td>{{ data.model_code }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Browse Type</td>
+                            <td>{{ data.browser_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">SIM Type</td>
+                            <td>{{ data.sim_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Hybrid Sim Slot</td>
+                            <td>{%if data.hybrid_sim_slot == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Touch Screen</td>
+                            <td>{%if data.touchscreen == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">OTG Compatible</td>
+                            <td>{%if data.otg_compatible == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Display">
+                      <table id="feat" style="border: none;">
+                          <tr>
+                            <td id="head">Display Size</td>
+                            <td>{{ data.display_size }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Resolution</td>
+                            <td>{{ data.resolution }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Resolution Type</td>
+                            <td>{{ data.resolution_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head"> Other Display Features</td>
+                            <td>{{ data.other_display_features }}</td>
+                          </tr>
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Processor">
+                      
+                        <table id="feat" style="border: none;">
+                          <tr>
+                            <td id="head">Operating System</td>
+                            <td>{{ data.operating_system }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Processor Type</td>
+                            <td>{{ data.processor_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Processor Core</td>
+                            <td>{{ data.processor_core }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Primary Clock Spped</td>
+                            <td>{{ data.primary_clock_speed }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Secondary Clock Speed</td>
+                            <td>{{ data.secondary_clock_speed }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Operating Frequency</td>
+                            <td>{{ data.operating_frequency }}</td>
+                          </tr>
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Storage">
+                      
+                        <table id="feat" style="border: none;">
+                          <tr>
+                            <td id="head">Supported Memory Card Type</td>
+                            <td>{{ data.supported_memory_card_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Memory Card Slot Type</td>
+                            <td>{{ data.memory_card_slot_type }}</td>
+                          </tr>                      
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-camera">
+                      
+                        <table id="feat" style="border: none;">
+                         <tr>
+                            <td id="head">Primary Camera Available</td>
+                            <td>{%if data.primary_camera_available == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Primary Camera</td>
+                            <td>{{ data.primary_camera }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Primary Camera Features</td>
+                            <td>{{ data.primary_camera_features }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Secondary Camera  Available</td>
+                            <td>{%if data.secondary_camera_available == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Secondary Camera</td>
+                            <td>{{ data.secondary_camera }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Secondary Camera Features</td>
+                            <td>{{ data.secondary_camera_features }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Flush</td>
+                            <td>{{ data.flash }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Dual Camera Lens</td>
+                            <td>{{ data.dual_camera_lens  }}</td>
+                          </tr>
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Connectivity">
+                      
+                        <table id="feat" style="border: none;">
+                         <tr>
+                          <td id="head">Network Type</td>
+                            <td>{{ data.network_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Supported Networks</td>
+                            <td>{{ data.supported_networks }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Internet Connectivity</td>
+                            <td>{{ data.internet_connectivity }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">GPRS</td>
+                            <td>{%if data.gprs == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Pre-installed Browser</td>
+                            <td>{{ data.pre_installed_browser }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Bluetooth Support</td>
+                            <td>{%if data.blutooth_support == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Bluetooth Version</td>
+                            <td>{{ data.blutooth_version }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Wi-Fi</td>
+                            <td>{%if data.wifi == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Wi-Fi Version</td>
+                            <td>{{ data.wifi_version }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">USB Connectivity</td>
+                            <td>{%if data.usb_connectivity == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Audio Jack</td>
+                            <td>{{ data.audio_jack }}</td>
+                          </tr>
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Details">
+                      
+                        <table id="feat" style="border: none;">
+                         <tr>
+                          <td id="head">Touchscreen Type</td>
+                            <td>{{ data.touchscreen_type }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">SIM Size</td>
+                            <td>{{ data.sim_size }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Sensors</td>
+                            <td>{{ data.sensors }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Other Features</td>
+                            <td>{{ data.other_features }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">GPS Type</td>
+                            <td>{{ data.gps_type }}</td>
+                          </tr>
+                        </table>
+                      
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Multimedia">
+                      
+                        <table id="feat" style="border: none;">
+                         <tr>
+                          <td id="head">FM Radio</td>
+                            <td>{%if data.fm_radio == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Audio Formats</td>
+                            <td>{%if data.music_player == 0 %}NO{%else%}YES{%endif%}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Video Formats</td>
+                            <td>{{ data.video_format }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Battery Capacity</td>
+                            <td>{{ data.battery_capacity  }}</td>
+                          </tr>
+                        </table>
+                     
+                    </div>
+                  </li>
+                  <li>
+                    <div class="items-Dimensions">
+                      <table id="feat" style="border: none;">
+                         <tr>
+                            <td id="head">Width</td>
+                            <td>{{ data.width }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Height</td>
+                            <td>{{ data.height }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Depth</td>
+                            <td>{{ data.depth }}</td>
+                          </tr>
+                          <tr>
+                            <td id="head">Weight</td>
+                            <td>{{ data.weight }}</td>
+                          </tr>
+                          </table>
+                        </div>
+                    
+                  </li>
+                  {%endfor%}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom: 30px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5" style="margin-left: 25px;">
+          <span class="heading">User Rating</span>
+          <span style="font-size: 30px;color: red">{{avg}}</span>
+          <!-- <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span> -->
+          <p>based on {{totalusersgivenrate}} users.</p>
+          <hr style="border:3px solid #f1f1f1">
+
+          <div class="row">
+            <div class="side">
+              <div>5 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div style="width: {{prec5}}%; height: 18px; background-color: #4CAF50;"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>{{totaluser5}}</div>
+            </div>
+            <div class="side">
+              <div>4 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div style="width: {{prec4}}%; height: 18px; background-color: #2196F3;"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>{{totaluser4}}</div>
+            </div>
+            <div class="side">
+              <div>3 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div style="width: {{prec3}}%; height: 18px; background-color: #00bcd4;"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>{{totaluser3}}</div>
+            </div>
+            <div class="side">
+              <div>2 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div style="width: {{prec2}}%; height: 18px; background-color: #ff9800;"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>{{totaluser2}}</div>
+            </div>
+            <div class="side">
+              <div>1 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div style="width: {{prec1}}%; height: 18px; background-color: #f44336;"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>{{totaluser1}}</div>
+            </div>
+          </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        {% if request.session.username %}
+        <div class="col-lg-6">
+          <label style="font-size: 18px;">Your Rating Is Here!!!</label>
+            <div class="wrapper" id="rate">
+              <input name="ratingRadio" type="radio" id="st5" value="5" onclick="select_rate(this.value);" />
+              <label for="st5"></label>
+              <input name="ratingRadio" type="radio" id="st4" value="4" onclick="select_rate(this.value);"/>
+              <label for="st4"></label>
+              <input name="ratingRadio" type="radio" id="st3" value="3" onclick="select_rate(this.value);"/>
+              <label for="st3"></label>
+              <input name="ratingRadio" type="radio" id="st2" value="2" onclick="select_rate(this.value);"/>
+              <label for="st2"></label>
+              <input name="ratingRadio" type="radio" id="st1" value="1" onclick="select_rate(this.value);" checked="" />
+              <label for="st1"></label>
+            </div>
+            
+              {% if ratedata.level > 0 %}
+                <h4 style="margin-top: 75px;margin-left: 10px;font:bold;">Thanks Your Given Rating is {{ratedata.level}}</h4>
+              {%else%}
+                <h4 style="margin-top: 75px;margin-left: 10px;font:bold;">Your Given Rating is NaN</h4>
+              {%endif%}
+            
+          </div>
+        </div>
+        </div>
+        {%endif%}
+    </div>
+    </div>
+  </section>
+  
+  <section style="margin-bottom: 30px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5" style="margin-left: 25px;">
+          {%if request.session.username %}
+            <h4 class="mt-0"><b>{{customername.name}}</b></h4>
+          {%else%}
+            <h4 class="mt-0"><b>Feedback</b></h4>
+          {%endif%}
+          <div class="media-body">
+            <div class="row">
+              <div class="col-lg-2">
+                <img src="{% static 'FrontEnd/images/person.png' %}" class="mr-3" alt="" height="40px" width="40px"/>
+              </div>
+              <div class="col-lg-10">
+                {% if feeddata.title != "" %}
+                  <textarea class="form-control" id="feedback" rows="5" maxlength="100">{{feeddata.title}}</textarea>
+                {% else %}
+                  <textarea class="form-control" id="feedback" rows="5" maxlength="100"></textarea>
+                {% endif %}
+              </div>
+              <br><br><br>
+              <input type="button" class="btn btn-primary" value="Submit Feedback" id="bfeedback" name="bfeedback" onclick="addfeedback();"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="margin-bottom: 30px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="media">
+            {% for feedbackdata in feedbackdata %}
+              <div class="col-lg-6">
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col-lg-2" style="margin-top: 20px;margin-left: 20px;">
+                      <img src="{% static 'FrontEnd/images/person.png' %}" class="mr-3" alt="" height="40px" width="40px"/>
+                    </div>
+                    <div class="col-lg-8" style="margin-top: 15px;">
+                      <h4><b>{{feedbackdata.user.name}}</b></h4>
+                      {{feedbackdata.title}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <br><br>
+  <section class="pb-70">
+    <div class="container">
+      <div class="product-listing">
+        <div class="row">
+          <div class="col-12">
+            <div class="heading-part mb-40">
+              <h2 class="main_title heading"><span>Related Products</span></h2>
+            </div>
+          </div>
+        </div>
+        <div class="pro_cat">
+          <div class="row">
+            <div class="owl-carousel pro-cat-slider">
+              {% for data in productslider %}
+              <div class="item">
+                <div class="product-item">
+                  <div class="product-image"> <a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+                    <div class="product-detail-inner">
+                      <div class="detail-inner-left align-center">
+                        <ul>
+                          <li class="pro-cart-icon">
+                            <form action="{% url 'product' data.product_id %}">
+                              <button title="View Product"><span></span>View Product</button>
+                            </form>
+                          </li>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="product-item-details">
+                    <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+                    <div class="price-box"> <span class="price">Rs. {{data.price}}</span> </div>
+                  </div>
+                </div>
+              </div>
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTAINER END --> 
+  <!-- Rating Select -->
+  <style>
+.content {
+  text-align: center;
+}
+.content h1 {
+  font-family: 'Sansita', sans-serif;
+  letter-spacing: 1px;
+  font-size: 50px;
+  color: #282828;
+  margin-bottom: 10px;
+}
+.content  i {
+  color: #FFC107;
+}
+.content span {
+  position: relative;
+  display: inline-block;
+}
+.content  span:before, .content  span:after {
+  /*position: absolute;*/
+  content: "";
+  background-color: #282828;
+  width: 40px;
+  height: 2px;
+  top: 40%;
+}
+.content  span:before {
+  left: -45px;
+}
+.content  span:after {
+  right: -45px;
+}
+.content p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+.wrapper {
+  position: absolute;
+  display: inline-block;
+  border: none;
+  font-size: 25px;
+  margin: 50px auto;
+  left: 45%;
+  transform: translateX(-50%);
+}
+
+.wrapper input {
+  border: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  /*position: absolute !important;*/
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+}
+
+.wrapper label {
+  position: relative;
+  float: right;
+  color: #C8C8C8;
+}
+
+.wrapper label:before {
+  margin: 5px;
+  content: "\f005";
+  font-family: FontAwesome;
+  display: inline-block;
+  font-size: 1.5em;
+  color: #ccc;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.wrapper input:checked ~ label:before {
+  color: #FFC107;
+}
+
+.wrapper label:hover ~ label:before {
+  color: #ffdb70;
+}
+
+.wrapper label:hover:before {
+  color: #FFC107;
+}
+</style>
+<!-- Rating Progress -->
+<style type="text/css">
+.heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color: orange;
+}
+
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 80%; height: 18px; background-color: #4CAF50;}
+.bar-4 {width: 30%; height: 18px; background-color: #2196F3;}
+.bar-3 {width: 10%; height: 18px; background-color: #00bcd4;}
+.bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
+.bar-1 {width: 15%; height: 18px; background-color: #f44336;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side, .middle {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+}
+</style>
+<!-- Tabs Products Details -->
+<style type="text/css">
+  #feat {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #head{
+    width: 30%;
+  }
+  #feat td, #feat th {
+    border: 1px solid #ddd;
+    padding: 12px;
+  }
+  
+  #feat tr:nth-child(odd){background-color: #f2f2f2;}
+  
+  #feat tr:hover {background-color: #ddd;}
+  
+  }
+.General, .items-Display, .items-Processor, .items-Storage, .items-camera, .items-Connectivity, .items-Details, .items-Multimedia, .items-Dimensions {
+  line-height: 25px;
+}
+.tab_content ul li strong {
+  font-weight: 500;
+  color: #222;
+}
+.items-General, .items-Display, .items-Processor, .items-Storage, .items-camera, .items-Connectivity, .items-Details, .items-Multimedia, .items-Dimensions {
+  display: none;
+}
+.items-General.selected, .items-Display.selected, .items-Processor.selected, .items-Storage.selected, .items-camera.selected, .items-Connectivity.selected, .items-Details.selected, .items-Multimedia.selected, .items-Dimensions.selected {
+  display: block;
+}
+</style>
+<script type="text/javascript">
+if (flag==0)
+{
+  document.getElementById('go_cart').hidden=true;
+}
+else{
+
+  document.getElementById('add_cart').hidden=true;
+}
+if (count==1)
+{
+  document.getElementById('add_cart').hidden=true;
+}
+else
+{
+  $("#add_cart").show();
+}
+
+function gettingprice()
+{
+    var id = $(".price").val();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'price' %}",
+      data: {id:id},
+      cache: false,
+      success: function(response)
+      {
+          document.getElementById('getPrice').innerText= "RS. "+response;
+      }
+    });
+}
+function gettingbutton()
+{
+  var id = $(".price").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'addcart' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      if(response=="Successfully"){
+        document.getElementById('go_cart').hidden=false;
+        document.getElementById('add_cart').hidden=true;
+      }
+      else if(response=="fali"){
+        document.getElementById('add_cart').hidden=false;
+        document.getElementById('go_cart').hidden=true;
+      }
+    }
+  });
+}
+function gettingstock()
+{
+    var id = $(".price").val();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'stock' %}",
+      data: {id:id},
+      cache: false,
+      success: function(response)
+      {
+        if(response>0)
+        {
+          $("#add_cart").show();
+          document.getElementById('getstock').innerText= "In Stock";
+        }
+        else
+        {
+          $("#add_cart").hide();
+          swal("", "This Product Varient Out of Stock Please Select Another Varient in Dropdown")
+          document.getElementById('getstock').innerText= "Out Of Stock";
+        }
+      }
+    });
+}
+function gettingram()
+{
+  var id = $(".price").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'ram' %}",
+    data: {id:id},
+    cache: false,
+    success: function(ram)
+    {
+        document.getElementById('getram').innerText="("+ram+",";
+    }
+  });
+}
+function gettingrom()
+{
+  var id = $(".price").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'rom' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      document.getElementById('getrom').innerText=response+")";
+    }
+  });
+}
+function add_to_cart()
+{
+  var id = $(".price").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'cart' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      if(response=="Success")
+      {
+        document.getElementById('add_cart').hidden=true;
+        document.getElementById('go_cart').hidden=false;
+        cart_details();
+        cart_count();
+      }
+      else
+      {
+        window.location.href="/logincustom/";
+      }
+    }
+  });
+}
+function select_rate(level){
+  var pid=document.getElementById('pid').value;
+  $.ajax({
+    type: "GET",
+    url: "{% url 'add_rating' %}",
+    data: {id:pid,level:level},
+    cache: false,
+    success: function(response)
+    {
+      if(response=="Fail")
+      {
+        swal("", "Haven't Purchase this Product")
+      }
+      else
+      {
+        location.reload();
+      }
+    }
+  });
+}
+function cart(){
+  window.location.href="/cart_page/";
+} 
+function addfeedback()
+{
+  var pid=document.getElementById('pid').value;
+  var feedback=document.getElementById('feedback').value;
+  $.ajax({
+    type: "GET",
+    url: "{% url 'add_feedback' %}",
+    data: {id:pid,feedback:feedback},
+    cache: false,
+    success: function(response)
+    {
+      if(response=="Success"){
+        location.reload();
+      }
+      else if(response=="Fail"){
+        swal("", "Haven't Purchase this Product")
+      }
+      else
+      {
+        window.location.href="/logincustom/";
+      }
+    }
+  });
+}
+</script>
+
+{% endblock %}

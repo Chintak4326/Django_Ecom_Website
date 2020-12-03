@@ -1,0 +1,142 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %}
+  <section class="">
+    <div id="owl-example" class="banner owl-carousel">
+      <div class="main-banner">
+        <div class="item">
+          <div class="banner-2"> <img src="{% static 'images/banner1.jpg' %}" alt="Stylexpo" style="height: 600px;width: 1350px;">
+            <div class="banner-detail">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-8 col-8">
+                    <div class="banner-detail-inner"> 
+                      <span class="slogan">new look</span>
+                      <h1 class="banner-title">Smart Moblies<br><span>And Tablets</span></h1>
+                      <span class="offer">Most Popular Brand Products 20% off</span> 
+                    </div> 
+                  </div>
+                  <div class="col-lg-3 col-4"></div>              
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="banner-3"> <img src="{% static 'FrontEnd/images/banner3.jpg' %}" alt="Stylexpo">
+            <div class="banner-detail">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-5 col-md-5 col-4"></div>
+                  <div class="col-lg-7 col-md-7 col-8">
+                    <div class="banner-detail-inner"> 
+                      <span class="slogan">UP TO 30% OFF</span>
+                      <h1 class="banner-title">Get latest headphone</h1>
+                      <span class="offer">Get the top brands for headphone</span> 
+                    </div>
+                      <a class="btn btn-color" href="shop.html">Shop Now!</a>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- CONTAIN START -->
+
+    <!-- Moblies Products Slider Block Start  -->
+    <section class="pt-70">
+      <div class="container">
+        <div class="product-listing">
+          <div class="row">
+            <div class="col-12">
+              <div class="heading-part mb-30">
+                <h2 class="main_title heading"><span>Moblies</span></h2>
+              </div>
+            </div>
+          </div>
+          <div class="pro_cat">
+            <div class="row">
+              <div class="owl-carousel pro-cat-slider ">
+                {% for data in mobliesdata%}
+                <div class="item">
+                  <div class="product-item mb-30">
+                    <div class="product-image"><a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+                      <div class="product-detail-inner">
+                        <div class="detail-inner-left align-center">
+                          <ul>
+                            <li class="pro-cart-icon">
+                              <form action="{% url 'product' data.product_id %}">
+                                <button title="View Product"><span></span>View Product</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item-details">
+                      <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+                      <div class="price-box"> <span class="price">Rs. {{data.price}}</span> </div>
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--  Moblies Products Slider Block End  -->
+
+    <!-- Tablets Products Slider Block Start  -->
+    <section class="pt-70">
+      <div class="container">
+        <div class="product-listing">
+          <div class="row">
+            <div class="col-12">
+              <div class="heading-part mb-30">
+                <h2 class="main_title heading"><span>Tablets</span></h2>
+              </div>
+            </div>
+          </div>
+          <div class="pro_cat">
+            <div class="row">
+              <div class="owl-carousel pro-cat-slider ">
+                {% for data in tabletdata %}
+                <div class="item">
+                  <div class="product-item mb-30">
+                    <div class="product-image"><a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+                      <div class="product-detail-inner">
+                        <div class="detail-inner-left align-center">
+                          <ul>
+                            <li class="pro-cart-icon">
+                              <form action="{% url 'product' data.product_id %}">
+                                <button title="View Product"><span></span>View Product</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item-details">
+                      <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+                      <div class="price-box"> <span class="price">Rs. {{data.price}}</span> </div>
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--  Tablets Products Slider Block End  -->
+
+{% endblock %}

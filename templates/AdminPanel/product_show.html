@@ -1,0 +1,313 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %} 
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current"> Product Tables</a> </div>
+    <h1>Product Tables</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Product table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Category Name</th>
+                  <th>Model Number</th>
+                  <th>Image</th>
+                  
+                  <th>Operating System</th>
+                  <th>Processor Type</th>
+                  <th>Processor Core</th>
+                  <th>Primary Clock Speed</th>
+                  <th>Secondary Clock Speed</th>
+                  
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for data in data%}
+                <tr class="gradeX">
+                  
+                  <td>{{ data.product_name }}</td>
+                  <td>{{ data.name }} {{data.parent}}</td>
+                  <td>{{ data.model_code }}</td>
+                  {%if data.images != '' %}
+                    <td><img src="{{ data.images.url }}" style="width:100px;height: 70px;"></td>
+                  {%else%}
+                    <td style="color: red;">Select image</td>
+                  {%endif%}
+                  
+                  <td>{{ data.operating_system }}</td>
+                  <td>{{ data.processor_type }}</td>
+                  <td>{{ data.processor_core }}</td>
+                  <td>{{ data.primary_clock_speed }}</td>
+                  <td>{{ data.secondary_clock_speed }}</td>
+                  
+                  <td class="center">
+                    <a href="{% url 'product_edit' data.id %}" class="btn btn-primary btn-mini">Edit</a>
+				            <a rel="product_delete" onclick="deletedata({{data.id}},this.rel)" class="btn btn-danger btn-mini">Delete</a>
+                    <a href="{% url 'product_image' data.id %}" class="btn btn-primary btn-mini" style="margin-top: 6px;">Add Images</a>
+                    <a href="{% url 'product_attribute' data.id %}" style="margin-top: 6px;" class="btn btn-primary btn-mini" >Add Attributes</a>
+                    <button type="button" style="margin-top: 6px;" class="btn btn-primary btn-mini" data-toggle="modal" data-target="#exampleModal">View</button>
+                  </td>
+                </tr>
+               {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <table border="3">
+            {% for data in data%}
+            <tr>
+              <td style="color:red;font-size: 14px;">Product Name </td>
+              <td style="font-size: 14px;">{{ data.product_name }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Category Name </td>
+              <td style="font-size: 14px;">{{ data.name }} {{data.parent}}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Model Name </td>
+              <td style="font-size: 14px;">{{ data.model_name }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Model Number </td>
+              <td style="font-size: 14px;">{{ data.model_code  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Description </td>
+              <td style="font-size: 14px;">{{ data.description  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Browse Type </td>
+              <td style="font-size: 14px;">{{ data.browser_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">SIM Type </td>
+              <td style="font-size: 14px;">{{ data.sim_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Hybrid Sim Slot </td>
+              <td style="font-size: 14px;">{%if data.hybrid_sim_slot == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Touch Screen </td>
+              <td style="font-size: 14px;">{%if data.touchscreen == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">OTG Compatible </td>
+              <td style="font-size: 14px;">{%if data.otg_compatible == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Display Size </td>
+              <td style="font-size: 14px;">{{ data.display_size  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Resolution </td>
+              <td style="font-size: 14px;">{{ data.resolution  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Resolution Type </td>
+              <td style="font-size: 14px;">{{ data.resolution_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Other Display Features </td>
+              <td style="font-size: 14px;">{{ data.other_display_features  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Operating System </td>
+              <td style="font-size: 14px;">{{ data.operating_system  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Processor Type </td>
+              <td style="font-size: 14px;">{{ data.processor_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Processor Core</td>
+              <td style="font-size: 14px;">{{ data.processor_core  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Primary Clock Speed </td>
+              <td style="font-size: 14px;">{{ data.primary_clock_speed  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Secondary Clock Speed </td>
+              <td style="font-size: 14px;">{{ data.secondary_clock_speed  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Operating Frequency </td>
+              <td style="font-size: 14px;">{{ data.operating_frequency  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Supported Memory Card Type </td>
+              <td style="font-size: 14px;">{{ data.supported_memory_card_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Memory Card Slot Type </td>
+              <td style="font-size: 14px;">{{ data.memory_card_slot_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Primary Camera Available </td>
+              <td style="font-size: 14px;">{%if data.primary_camera_available == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Primary Camera </td>
+              <td style="font-size: 14px;">{{ data.primary_camera  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Primary Camera Features </td>
+              <td style="font-size: 14px;">{{ data.primary_camera_features  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Secondary Camera Available </td>
+              <td style="font-size: 14px;">{%if data.secondary_camera_available == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Secondary Camera </td>
+              <td style="font-size: 14px;">{{ data.secondary_camera  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Secondary Camera Features </td>
+              <td style="font-size: 14px;">{{ data.secondary_camera_features  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Flash </td>
+              <td style="font-size: 14px;">{{ data.flash  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Dual Camera Lens </td>
+              <td style="font-size: 14px;">{{ data.dual_camera_lens  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Network Type </td>
+              <td style="font-size: 14px;">{{ data.network_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Supported Networks </td>
+              <td style="font-size: 14px;">{{ data.supported_networks  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Internet Connectivity </td>
+              <td style="font-size: 14px;">{{ data.internet_connectivity }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">GPRS </td>
+              <td style="font-size: 14px;">{%if data.gprs == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Pre-installed Browser </td>
+              <td style="font-size: 14px;">{{ data.pre_installed_browser }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Bluetooth Support </td>
+              <td style="font-size: 14px;">{%if data.blutooth_support == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Bluetooth Version </td>
+              <td style="font-size: 14px;">{{ data.blutooth_version  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Wi-Fi </td>
+              <td style="font-size: 14px;">{%if data.wifi == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Wi-Fi Version </td>
+              <td style="font-size: 14px;">{{ data.wifi_version  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">USB Connectivity </td>
+              <td style="font-size: 14px;">{%if data.usb_connectivity == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Audio Jack </td>
+              <td style="font-size: 14px;">{{ data.audio_jack  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Touchscreen Type </td>
+              <td style="font-size: 14px;">{{ data.touchscreen_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">SIM Size </td>
+              <td style="font-size: 14px;">{{ data.sim_size  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Sensors </td>
+              <td style="font-size: 14px;">{{ data.sensors  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Other Features </td>
+              <td style="font-size: 14px;">{{ data.other_features  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">GPS Type </td>
+              <td style="font-size: 14px;">{{ data.gps_type  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">FM Radio </td>
+              <td style="font-size: 14px;">{%if data.fm_radio == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Audio Formats </td>
+              <td style="font-size: 14px;">{%if data.music_player == 0 %}NO{%else%}YES{%endif%}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Video Formats </td>
+              <td style="font-size: 14px;">{{ data.video_format  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Battery Capacity </td>
+              <td style="font-size: 14px;">{{ data.battery_capacity  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Width </td>
+              <td style="font-size: 14px;">{{ data.width  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Height </td>
+              <td style="font-size: 14px;">{{ data.height  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Depth </td>
+              <td style="font-size: 14px;">{{ data.depth  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Weight </td>
+              <td style="font-size: 14px;">{{ data.weight  }}</td>
+            </tr>
+            <tr>
+              <td style="color:red;font-size: 14px;">Warranty </td>
+              <td style="font-size: 14px;">{{ data.warranty }}</td>
+            </tr>
+            
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock%} 

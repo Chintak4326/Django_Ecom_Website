@@ -1,0 +1,89 @@
+<!--sidebar-menu-->
+<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+  <ul>
+    <!--Dashboard-->
+    <li class="active"><a href="{% url 'Dashboard' %}"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
+    
+    <!--Comapany-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i><span>Company</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_company' %}">Add Company</a></li>
+        <li><a href="{% url 'company_show' %}">View Company</a></li>
+      </ul>
+    </li>
+
+    <!--State-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>State</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_state' %}">Add State</a></li>
+        <li><a href="{% url 'add_state_show' %}">View State</a></li>
+      </ul>
+    </li>
+    
+    <!--City-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>City</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_city' %}">Add City</a></li>
+        <li><a href="{% url 'city_show' %}">View City</a></li>
+      </ul>
+    </li>
+
+    <!--Area-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Area</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_area' %}">Add Area</a></li>
+        <li><a href="{% url 'area_show' %}">View Area</a></li>
+      </ul>
+    </li>
+
+    <!--Category-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Category</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_category' %}">Add Category</a></li>
+        <li><a href="{% url 'add_category_show' %}">View Category</a></li>
+      </ul>
+    </li>
+
+    <!--Product-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Product</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_product' %}">Add Product</a></li>
+        <li><a href="{% url 'product_show' %}">View Products</a></li>
+        
+      </ul>
+    </li>
+
+    <!--Employee-->
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i><span>Employee</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'add_employee' %}">Add Employee</a></li>
+        <li><a href="{% url 'employee_show' %}">View Employee</a></li>
+      </ul>
+    </li>
+
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i><span>Orders</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'orders' %}">View Orders</a></li>
+        <li><a href="{% url 'cancle_order' %}">View Cancle Orders</a></li>
+      </ul>
+    </li>
+
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i><span>Sales</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'sales' %}">View Sales</a></li>
+        <li><a href="{% url 'sales_return' %}">View Sales Returns</a></li>
+      </ul>
+    </li>
+
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i><span>Reports</span> <span class="label label-important"></span></a>
+      <ul>
+        <li><a href="{% url 'sales_report' %}">Sales Reports</a></li>
+        <li><a href="{% url 'custom_sales_report' %}">Custom Sales Returns</a></li>
+        <li><a href="{% url 'sales_return_report' %}">Sales Return Reports</a></li>
+        <li><a href="{% url 'custom_sales_return_report' %}">Custom Sales Returns</a></li>
+      </ul>
+    </li>
+    
+  </ul>
+</div>
+<!--sidebar-menu-->

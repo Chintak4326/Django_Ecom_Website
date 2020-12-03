@@ -1,0 +1,83 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Orders Form</a> </div>
+    <h1>Orders</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box" id="orders_from">
+          <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
+            <h5>Orders Form</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form id="form-wizard" class="form-horizontal" enctype="multipart/form-data" method="POST" action="{% url 'order_staus_update' data.id %}">
+            {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">Select Order Status</label>
+                <div class="controls">
+                  <select name="status" id="status" style="width:220px;">
+                    {% if data.order_status == "Order Placed" %}
+                      <option value="Order Placed">Order Placed</option>
+                      <option value="Packed">Packed</option>
+                      <option value="Out Of Delivery">Out Of Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    {% elif data.order_status == "Packed" %}
+                      <option value="Order Placed" disabled>Order Placed</option>
+                      <option value="Packed">Packed</option>
+                      <option value="Out Of Delivery">Out Of Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    {% elif data.order_status == "Out Of Delivery" %}
+                      <option value="Order Placed" disabled>Order Placed</option>
+                      <option value="Packed" disabled>Packed</option>
+                      <option value="Out Of Delivery">Out Of Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    {% else %}
+                      <option value="Order Placed" disabled>Order Placed</option>
+                      <option value="Packed" disabled>Packed</option>
+                      <option value="Out Of Delivery" disabled>Out Of Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Select Employee</label>
+                <div class="controls">
+                  <select name="employee" style="width:220px;">
+                    {%if data.employee_id == NUll%}
+                      <option hidden="">Select Employee</option>
+                    {%else%}
+                      <option hidden="" value="{{data.employee_id}}">{{data.employee.emp_name}}</option>
+                    {%endif%}
+                    {%for empdata in empdata%}
+                      <option value="{{empdata.id}}">{{empdata.emp_name}}</option>
+                    {%endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <input id="next" class="btn btn-primary" type="submit" value="Update Order Status" />
+              </div>
+
+            </form>
+          </div>
+        </div>
+     </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+        }, 2000);
+</script>
+{% endblock%} 

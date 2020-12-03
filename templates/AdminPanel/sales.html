@@ -1,0 +1,96 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Sales</a> </div>
+    <h1>Sales</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        
+        <!--Sales Table-->
+        <div>
+          <div>
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="widget-box">
+                  <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                    <h5>Sales table</h5>
+                  </div>
+                  <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                      <thead>
+                        <tr>
+                          <th>Customer_name</th>
+                          <th>Address</th>
+                          <th>Order Date</th>
+                          <th>Amount</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for data in salesdata %}
+                        <tr>
+                            <td>{{data.order.customer_name}}</td>
+                            <td>{{data.order.address}},{{data.orders.landmark}}</td>
+                            <td>{{data.order.order_date}}</td>
+                            <td>{{data.order.amount}}</td>
+                            <td  style="text-align: center;">
+                            <button type="button" class="btn btn-info" data-toggle="modal" onclick="product_details({{data.id}});">View</button>
+                            </td>
+                        </tr>
+                      {%endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="show_detail" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid" id="show_order_detail">
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+window.setTimeout(function() {
+$(".alert").fadeTo(500, 0).slideUp(500, function(){
+    $(this).remove(); 
+});
+}, 2000);
+function product_details(id)
+{
+  $.ajax({
+    type: "GET",
+    url:"{% url 'order_details_sales' %}",
+    data:{id:id},
+    success: function(data){
+      $('#show_detail').modal("show");
+      $('#show_order_detail').html(data);
+    }
+  });
+}
+</script>
+{% endblock%} 

@@ -1,0 +1,377 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %} 
+
+  <!-- CONTAIN START -->
+  <section class="checkout-section ptb-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="account-sidebar account-tab mb-sm-30">
+            <div class="dark-bg tab-title-bg">
+              <div class="heading-part">
+                <div class="sub-title"><span></span> My Account</div>
+              </div>
+            </div>
+            <div class="account-tab-inner">
+              <ul class="account-tab-stap">
+                <li id="step1" class="active"> <a href="javascript:void(0)">My Dashboard<i class="fa fa-angle-right"></i> </a> </li>
+                <li id="step2"> <a href="javascript:void(0)">Account Details<i class="fa fa-angle-right"></i> </a> </li>
+                <li id="step4"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div id="data-step1" class="account-content" data-temp="tabdata">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                  <p class="alert alert-info">{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <div class="heading-part heading-bg mb-30">
+                  <h2 class="heading m-0">Account Dashboard</h2>
+                </div>
+              </div>
+            </div>
+            <div class="mb-30">
+              <div class="row">
+                <div class="col-12">
+                  <div class="heading-part">
+                    <h3 class="sub-heading">Hello, {{data.name}}</h3>
+                  </div>
+                  <p>Welcome Your account.</p>
+                </div>
+              </div>
+            </div>
+            <div class="m-0">
+              <div class="row">
+                <div class="col-12 mb-20">
+                  <div class="heading-part">
+                    <h3 class="sub-heading">Account Information</h3>
+                  </div>
+                  <hr>
+                </div>
+                <div class="col-md-6">
+                  <div class="cart-total-table address-box commun-table">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Username</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><ul>
+                                <li class="inner-heading"> <b>{{data.email}}</b> </li>
+                              </ul></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="cart-total-table address-box commun-table">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Contact Number</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <ul>
+                                <li class="inner-heading"> <b>{{data.contact_no}}</b> </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mb-20" style="margin-top: 10px;">
+                  <div class="heading-part">
+                    <button title="Update data" class="btn-color" onclick="show();"><span></span>Update Informations</button>
+                  </div>
+                </div>
+              </div>
+              <div class="m-0">
+              <form class="main-form full" method="post" id="update" action="{% url 'update_account'%}">
+                {% csrf_token %}
+                <div class="mb-20">
+                  <div class="row">
+                    <div class="col-12 mb-20">
+                      <div class="heading-part">
+                        <h3 class="sub-heading">Account Details</h3>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Full Name" name="name" value="{{data.name}}">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Contact Number" name="contact_no" value="{{data.contact_no}}" maxlength="10" onkeypress="return event.charCode>=48 && event.charCode<=57;">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-box">
+                        <button title="Update data" class="btn-color"><span></span>Update</button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div id="data-step2" class="account-content" data-temp="tabdata" style="display:none">
+            <div class="row">
+              <div class="col-12">
+                <div class="heading-part heading-bg mb-30">
+                  <h2 class="heading m-0">Account Details</h2>
+                </div>
+              </div>
+            </div>
+            <div class="m-0">
+              <div class="row">
+                {%for address in address%}
+
+                <div class="col-md-6">
+                  <div class="cart-total-table address-box commun-table">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th><b>Shipping Address {{ forloop.counter }}</b></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <ul>
+                                {%if address.address == null %}
+                                  <li class="inner-heading"> <b>Add Address</b> </li>
+                                {%else%}
+                                  <li class="inner-heading"> <b>{{address.customer_name}}</b> </li>
+                                  <li>
+                                    <p>{{address.email}}</p>
+                                  </li>
+                                  <li>
+                                    <p>{{address.contact_no}}</p>
+                                  </li>
+                                  <li>
+                                    <p>{{address.address}}</p>
+                                  </li>
+                                  <li>
+                                    <p>{{address.landmark}}</p>
+                                  </li>
+                                  <li>
+                                    <p>{{address.area.name}}-{{address.area.pincode}}</p>
+                                  </li>
+                                  <li>
+                                    <p>India</p>
+                                  </li>
+                                  <li>
+                                    {% if address.flag == 1 %}
+                                      <label style="margin-left: 120px;font-size: 15px;">Default</label>
+                                      <a style="margin-left: 5px;font-size: 16px;" onclick="show_address_edit();edit_data({{address.id}});"><span></span>Edit</a>
+                                      <a rel="address_delete" onclick="remove({{address.id}},this.rel)" style="margin-left: 5px;font-size: 16px;">Remove</a>
+                                      </td>
+                                    {%else%}
+                                      <a style="margin-left: 200px;font-size: 16px;" onclick="show_address_edit();edit_data({{address.id}});"><span></span>Edit</a>
+                                      <a rel="address_delete" onclick="remove({{address.id}},this.rel)" style="margin-left: 5px;font-size: 16px;">Remove</a></td>
+                                      
+                                    {%endif%}
+                                  </li>
+                                {%endif%}
+                                <br>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button title="Update data" class="btn-color" style="margin-top: 10px;" onclick="show_address();"><span></span>Add Address</button>
+              </div>
+            </div>
+            <br>
+            
+            <div class="m-0">
+              <form class="main-form full" method="post" id="add_address" action="{% url 'add_address'%}">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{data.id}}">
+                <div class="mb-20">
+                  <div class="row">
+                    <div class="col-12 mb-20">
+                      <div class="heading-part">
+                        <h3 class="sub-heading">Shipping Address</h3>
+                      </div>
+                      <hr>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Full Name" name="customer_name">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-box">
+                        <input type="email" required placeholder="Email Address" name="email">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Contact Number" name="contact_no" maxlength="10" onkeypress="return event.charCode>=48 && event.charCode<=57;">
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="input-box select-dropdown">
+                        <fieldset>
+                          <select name="area" class="city" onchange="selectcity();selectstate();">
+                            <option selected="" value="">Select Area and Pincode</option>
+                            {%for data in area_data%}
+                              <option value="{{data.id}}">{{data.name}}-{{data.pincode}}</option>
+                            {%endfor %}
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-box">
+                        <input type="text" disabled="" placeholder="Select City" id="getcity">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-box">
+                        <input type="text" disabled="" placeholder="Select State" id="getstate">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Shipping Address" name="address">
+                        <span>Please provide the number and street.</span> 
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-box">
+                        <input type="text" required placeholder="Shipping Landmark" name="landmark">
+                        <span>Please include landmark (e.g : Opposite Bank) as the carrier service may find it easier to locate your address.</span> 
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="check-box left-side"> 
+                        <span>
+                          <input type="checkbox" name="flag" id="remember_me" class="checkbox">
+                          <label for="remember_me">Select as a default</label>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <button title="Update data" class="btn-color"><span></span>Add Address</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="m-0" id="edit_data">
+            </div>
+          </div>
+          <div id="data-step4" class="account-content" data-temp="tabdata" style="display:none">
+            <div class="row">
+              <div class="col-12">
+                <div class="heading-part heading-bg mb-30">
+                  <h2 class="heading m-0">Change Password</h2>
+                </div>
+              </div>
+            </div>
+            <form class="main-form full" method="post" action="{% url 'changepass' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-12">
+                  <div class="input-box">
+                    <label for="old-pass">Current-Password</label>
+                    <input type="password" placeholder="Current Password" name="cpass" required id="old-pass">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-box">
+                    <label for="login-pass">New Password</label>
+                    <input type="password" placeholder="Enter your Password" name="npass" required id="login-pass">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-box">
+                    <label for="re-enter-pass">Re-enter Password</label>
+                    <input type="password" placeholder="Re-enter your Password" name="ncpass" required id="re-enter-pass">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button class="btn-color" type="submit" name="submit">Change Password</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTAINER END --> 
+<script type="text/javascript">
+window.setTimeout(function() {
+  $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove(); 
+  });
+  }, 2000);
+function show(){
+  $("#update").show();
+}
+function show_address(){
+  $("#edit_data").hide();
+
+  $("#add_address").show();
+  $("#edit_data").reset();
+}
+function show_address_edit(){
+  $("#add_address").hide();
+  $("#edit_data").show();
+}
+
+function edit_data(id){
+  $.ajax({
+    type: "GET",
+    url: "{% url 'dev_address' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      $("#edit_data").html(response);
+      //document.getElementById('edit_data').append=response;
+    }
+  });
+}
+</script>
+
+{% endblock %}

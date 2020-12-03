@@ -1,0 +1,44 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %} 
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current"> City Tables</a> </div>
+    <h1>City Table</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>City table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>City Name</th>
+                  <th>State Name</th>
+                  <th>Actions</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for citydata in citydata%}
+                <tr class="gradeX">
+                  <td>{{citydata.name}}</td>
+                  <td>{{citydata.statename}}</td>
+                  <td class="center" style="text-align: center;"><a href="{% url 'city_edit' citydata.id %}" class="btn btn-primary btn-mini">Edit</a></td>
+                  <td style="text-align: center;"><a rel="city_delete" onclick="deletedata({{citydata.id}},this.rel)" class="btn btn-danger btn-mini">Delete</a></td>
+				         </tr>
+               {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock%} 

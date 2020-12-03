@@ -1,0 +1,113 @@
+<form class="main-form full" method="post" action="{% url 'devliery_address_update' dev_data.id %}">
+  {% csrf_token %}
+  <input type="hidden" name="user" value="{{dev_data.user_id}}">
+  <div class="mb-20">
+    <div class="row">
+      <div class="col-12 mb-20">
+        <div class="heading-part">
+          <h3 class="sub-heading">Shipping Address</h3>
+        </div>
+        <hr>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="input-box">
+          <input type="text" required placeholder="Full Name" name="customer_name" value="{{dev_data.customer_name}}">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-box">
+          <input type="email" required placeholder="Email Address" name="email" value="{{dev_data.email}}">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-box">
+          <input type="text" required placeholder="Contact Number" name="contact_no" maxlength="10" onkeypress="return event.charCode>=48 && event.charCode<=57;" value="{{dev_data.contact_no }}">
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="input-box select-dropdown">
+          <fieldset>
+            <select name="area" class="area" onchange="selectcityedit();selectstateedit();">
+              {%for data in area_data%}
+                {%if dev_data.area_id == data.id %}
+                  <option selected="" value="{{dev_data.area_id}}">{{dev_data.area.name}}-{{dev_data.area.pincode}}</option>
+                {%else%}
+                  <option value="{{data.id}}">{{data.name}}-{{data.pincode}}</option>
+                {%endif%}
+              {%endfor %}
+            </select>
+          </fieldset>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-box">
+          <input type="text" disabled="" placeholder="Select City" id="getcityedit" value="{{dev_data.area.city.name}}">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-box">
+          <input type="text" disabled="" placeholder="Select State" id="getstateedit" value="{{dev_data.area.city.state.name}}">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="input-box">
+          <input type="text" required placeholder="Shipping Address" name="address" value="{{dev_data.address}}">
+          <span>Please provide the number and street.</span> 
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="input-box">
+          <input type="text" required placeholder="Shipping Landmark" name="landmark" value="{{dev_data.landmark}}">
+          <span>Please include landmark (e.g : Opposite Bank) as the carrier service may find it easier to locate your address.</span> 
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="left-side"> 
+          <span>
+            {%if dev_data.flag == 1 %}
+              <input type="checkbox" name="flag" checked="" id="flag" style="width: 20px;height: 20px;">
+            {%else%}
+              <input type="checkbox" name="flag" id="flag" style="width: 20px;height: 20px;">
+            {%endif%}
+            <label for="flag">Select as a default</label>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button title="Update data" class="btn-color"><span></span>Add Address</button>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+function selectcityedit(){
+  var id = $(".area").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'city' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      document.getElementById('getcityedit').value=response;
+    }
+  });
+}
+function selectstateedit(){
+  var id = $(".area").val();
+  $.ajax({
+    type: "GET",
+    url: "{% url 'state' %}",
+    data: {id:id},
+    cache: false,
+    success: function(response)
+    {
+      document.getElementById('getstateedit').value=response;
+    }
+  });
+}
+</script>

@@ -1,0 +1,53 @@
+<div class="row">
+  {%for data in data%}
+  <div class="col-md-4 col-6 item-width mb-30">
+    <div class="product-item">
+      <div class="product-image"><a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+        <div class="product-detail-inner">
+          <div class="detail-inner-left align-center">
+            <ul>
+              <li>
+                <form action="{% url 'product' data.product_id %}">
+                  <button title="View Product"><span></span>View Product</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-item-details">
+        <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+        <div class="price-box"> <span class="price">Rs. {{data.price}}</span></div>
+      </div>
+    </div>
+  </div>
+
+  {%endfor%}
+  
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="pagination-bar">
+      <ul>
+        {% if data.has_previous %}
+          <li><a href="?page={{ data.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+        {% else %}
+          <li class="disabled"></li>
+        {% endif %}
+        {% for i in data.paginator.page_range %}
+          {% if data.number == i %}
+            <li class="active"><a href="#">{{data.number}}</a></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if data.has_next %}
+          <li><a href="?page={{ data.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+        {% else %}
+          <li class="disabled"></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>

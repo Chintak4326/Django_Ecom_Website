@@ -1,0 +1,60 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %}
+<body>
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Custom Sales Return Report</a> </div>
+    <h1>Custom Sales Return Report</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-pencil"></i> </span>
+            <h5>Custom Sales Return Report</h5>
+          </div>
+          <form id="form-wizard" class="form-horizontal" enctype="multipart/form-data" method="POST" action="{% url 'custom_sales_product_return_report' %}">
+            {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">Start Date</label>
+                <div class="controls">
+                  <input type="date" id="sdate" name="sdate" placeholder="Start Date" required="">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">End Date</label>
+                <div class="controls">
+                  <input type="date" id="edate" name="edate" placeholder="End Date" required="">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <input id="next" class="btn btn-primary" type="submit" value="Custom Sales Return Report" onclick="return startdate()"/>
+              </div>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function startdate()
+  {
+    var startDate = document.getElementById("sdate").value;
+    var endDate = document.getElementById("edate").value;
+    if ((Date.parse(startDate) >= Date.parse(endDate))) {
+        swal("", "Start date should be greater than or Equal to the End date")
+        //alert("Start date should be greater than End date");
+        document.getElementById("sdate").value = "";
+        return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+</script>
+{% endblock%} 

@@ -1,0 +1,21 @@
+{%for cartdata in cartdata%}
+  <li> 
+    <a rel="cart_delete" onclick="remove({{cartdata.id}},this.rel)" class="close-cart fa fa-trash cart-remove-item fa-2x" style="size: 16px;"></a>
+    <div class="media"> 
+      <a class="pull-left"> 
+      <img src="/media/{{cartdata.product_attributes.product.images}}"></a>
+      <div class="media-body"> 
+        <span style="font-size: 16px;">{{cartdata.product_attributes.product.product_name}} 
+          <span>({{cartdata.product_attributes.ram}}-{{cartdata.product_attributes.rom}})</span>
+        </span>
+        <p class="cart-price" style="font-size: 16px;">RS. {{cartdata.price}}/-</p>
+        <div>
+          <label>Qty:</label>
+          <div class="custom-qty">
+            <label>{{cartdata.qty}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+ </li>
+{%endfor%}

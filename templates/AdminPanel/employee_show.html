@@ -1,0 +1,47 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %} 
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current"> Employee Tables</a> </div>
+    <h1>Employee Table</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Employee table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Address</th>
+                  <th>Contact No.</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for employeeData in employeeData%}
+                <tr class="gradeX">
+                  <td>{{employeeData.emp_name}}</td>
+                  <td>{{employeeData.emp_address}}</td>
+                  <td>{{employeeData.emp_contact_no}}</td>
+                  <td>{{employeeData.emp_email}}</td>
+                  <td class="center" style="text-align: center;"><a href="{% url 'employee_edit' employeeData.id %}" class="btn btn-primary btn-mini">Edit</a>
+                  <a rel="employee_delete" onclick="deletedata({{employeeData.id}},this.rel)" class="btn btn-danger btn-mini">Delete</a></td>
+				         </tr>
+               {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock%} 

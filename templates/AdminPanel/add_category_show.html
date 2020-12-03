@@ -1,0 +1,47 @@
+{% extends "layouts/AdminLayout/admin_design.html" %}
+{% load static %}
+{% block content %} 
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'Dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current"> Category Tables</a> </div>
+    <h1>Category Table</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Category table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Category Name</th>
+                  <th>Main Category Name</th>
+                  <th>Category Url</th>
+                  <th>Actions</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+              {% for categoryData in categoryData%}
+                <tr class="gradeX">
+                  <td>{{categoryData.name}}</td>
+                  <td>{{categoryData.parentname}}</td>
+                  <td>{{categoryData.url}}</td>
+                  <td class="center" style="text-align: center;"><a href="{% url 'add_category_from_edit' categoryData.id %}" class="btn btn-primary btn-mini">Edit</a>
+				          <a rel="add_category_delete" onclick="deletedata({{categoryData.id}},this.rel)" class="btn btn-danger btn-mini">Delete</a></td>
+                  
+                 </tr>
+               {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock%} 

@@ -1,0 +1,218 @@
+{% extends "layouts/FrontLayout/front_design.html" %}
+{% load static %}
+{% block content %}
+
+  <!-- Bread Crumb STRAT -->
+  <div class="banner inner-banner1 ">
+    <div class="container">
+      <section class="banner-detail center-xs">
+        <h1 class="banner-title"></h1>
+        <div class="bread-crumb right-side float-none-xs">
+          <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- Bread Crumb END -->  
+  
+  <!-- CONTAIN START -->
+  <section class="ptb-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-2 col-lg-3 mb-sm-30 col-lgmd-20per">
+          <div class="sidebar-block">
+            <div class="sidebar-box mb-40"> <span class="opener plus"></span>
+              <div class="sidebar-title">
+                <h3><span>Filter</span></h3> 
+              </div>
+              <div class="sidebar-contant">
+                <div class="price-range mb-30">
+                  <div style="font-size: 16px;color: black;padding-bottom: 13px;">Price</div>
+                  <div class="row">
+                    <div class="col-5">
+                      <select id="minamount" style="width: 92px;" onchange="minprice();">
+                        <option value="2000" selected="">₹2000</option>
+                        <option value="4000">₹4000</option>
+                        <option value="7000">₹7000</option>
+                        <option value="10000">₹10000</option>
+                        <option value="13000">₹13000</option>
+                        <option value="15000">₹15000</option>
+                        <option value="20000">₹20000</option>
+                      </select>
+                    </div>
+                    <div class="col-2">
+                      <label style="text-align: center;">to</label>
+                    </div>
+                    <div class="col-5" style="padding-left: 0px;">
+                      <select id="maxamount" style="width: 92px;" onchange="minprice();">
+                        <option value="4000">₹4000</option>
+                        <option value="7000">₹7000</option>
+                        <option value="10000">₹10000</option>
+                        <option value="13000">₹13000</option>
+                        <option value="15000">₹15000</option>
+                        <option value="20000">₹20000</option>
+                        <option value="25000">₹25000</option>
+                        <option value="50000">₹50000</option>
+                        <option value="50000+" selected>₹50000+</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <input class="price-txt" type="text" id="amount">
+                  <div id="slider-range"></div> -->
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-xl-10 col-lg-9 col-lgmd-80per"> 
+          <div class="product-listing">
+            <div class="inner-listing" id="lastprodata">
+              <div class="row">
+                {%for data in data%}
+                <input type="hidden" id="cateid" value="{{data.product_id}}">
+                <div class="col-md-4 col-6 item-width mb-30">
+                  <div class="product-item">
+                    <div class="product-image"><a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+                      <div class="product-detail-inner">
+                        <div class="detail-inner-left align-center">
+                          <ul>
+                            <li>
+                              <form action="{% url 'product' data.product_id %}">
+                                <button title="View Product"><span></span>View Product</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="product-item-details">
+                      <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+                      <div class="price-box"> <span class="price">Rs. {{data.price}}</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                {%endfor%}
+                
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="pagination-bar">
+                    <ul>
+                      {% if data.has_previous %}
+                        <li><a href="?page={{ data.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+                      {% else %}
+                        <li class="disabled"></li>
+                      {% endif %}
+                      {% for i in data.paginator.page_range %}
+                        {% if data.number == i %}
+                          <li class="active"><a href="#">{{data.number}}</a></li>
+                        {% else %}
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      {% if data.has_next %}
+                        <li><a href="?page={{ data.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                      {% else %}
+                        <li class="disabled"></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="inner-listing" id="afterprodata">
+              <!-- <div class="row" >
+                {%for data in data%}
+                <input type="hidden" id="cateid" value="{{data.product_id}}">
+                <div class="col-md-4 col-6 item-width mb-30">
+                  <div class="product-item">
+                    <div class="product-image"><a href="{% url 'product' data.product_id %}"> <img src="/media/{{ data.images }}" style="width: 500px;height: 350px;"> </a>
+                      <div class="product-detail-inner">
+                        <div class="detail-inner-left align-center">
+                          <ul>
+                            <li>
+                              <form action="{% url 'product' data.product_id %}">
+                                <button title="View Product"><span></span>View Product</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="product-item-details">
+                      <div class="product-item-name"> <a href="{% url 'product' data.product_id %}">{{data.product_name}} <br> ({{data.color}}, {{data.ram}}, {{data.rom}})</a> </div>
+                      <div class="price-box"> <span class="price">Rs. {{data.price}}</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                {%endfor%}
+                
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="pagination-bar">
+                    <ul>
+                      {% if data.has_previous %}
+                        <li><a href="?page={{ data.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+                      {% else %}
+                        <li class="disabled"></li>
+                      {% endif %}
+                      {% for i in data.paginator.page_range %}
+                        {% if data.number == i %}
+                          <li class="active"><a href="#">{{data.number}}</a></li>
+                        {% else %}
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      {% if data.has_next %}
+                        <li><a href="?page={{ data.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                      {% else %}
+                        <li class="disabled"></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTAINER END --> 
+  <script type="text/javascript">
+    document.getElementById('afterprodata').hidden=true;
+    function minprice()
+    {
+      var minprice1 = minamount.options[minamount.selectedIndex].value;
+      var maxprice1 = maxamount.options[maxamount.selectedIndex].value;
+      var id=document.getElementById('cateid').value;
+      if(parseInt(maxprice1)<=parseInt(minprice1)){
+        swal("", "Please Select Product price more then minimum price")
+      }
+      else{
+        $.ajax({
+          type: "GET",
+          url: "{% url 'price_filter' %}",
+          data: {minprice:minprice1,maxprice:maxprice1,id:id},
+          cache: false,
+          success: function(response)
+          {
+            document.getElementById('lastprodata').hidden=true;
+            document.getElementById('afterprodata').hidden=false;
+            $("#afterprodata").html(response);
+          }
+        });
+      }
+    }
+    
+  </script>
+{% endblock %}
